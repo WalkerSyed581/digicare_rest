@@ -15,6 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.digicare.digicare_rest_test.security.JwtAuthenticationEntryPoint;
+import com.digicare.digicare_rest_test.filters.*;
+
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -27,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService jwtUserDetailsService;
 
 	@Autowired
-	private JwtRequestFilter jwtRequestFilter;
+	private JwtAuthenticationFilter jwtRequestFilter;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.digicare.digicare_rest_test.assembler.CaregiverModelAssembler;
 import com.digicare.digicare_rest_test.exception.UserNotFoundException;
-import com.digicare.digicare_rest_test.model.Caregiver;
+import com.digicare.digicare_rest_test.model.user.Caregiver;
 import com.digicare.digicare_rest_test.repository.CaregiverRepository;
 
 import org.springframework.hateoas.EntityModel;
@@ -61,19 +61,19 @@ public class CaregiverController {
     return assembler.toModel(Caregiver);
   }
 
-  @PutMapping("/caregivers/{id}")
-  public Caregiver replaceEmployee(@RequestBody Caregiver newCaregiver, @PathVariable Long id) {
-    
-    return repository.findById(id)
-      .map(caregiver -> {
-        caregiver.setName(newCaregiver.getName());
-        return repository.save(caregiver);
-      })
-      .orElseGet(() -> {
-    	  newCaregiver.setId(id);
-    	  return repository.save(newCaregiver);
-      });
-  }
+//  @PutMapping("/caregivers/{id}")
+//  public Caregiver replaceEmployee(@RequestBody Caregiver newCaregiver, @PathVariable Long id) {
+//    
+//    return repository.findById(id)
+//      .map(caregiver -> {
+//        caregiver.setName(newCaregiver.getName());
+//        return repository.save(caregiver);
+//      })
+//      .orElseGet(() -> {
+//    	  newCaregiver.setId(id);
+//    	  return repository.save(newCaregiver);
+//      });
+//  }
 
   @DeleteMapping("/caregivers/{id}")
   void deleteEmployee(@PathVariable Long id) {

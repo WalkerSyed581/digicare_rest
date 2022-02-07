@@ -8,6 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.digicare.digicare_rest_test.model.user.Doctor;
+import com.digicare.digicare_rest_test.model.user.Patient;
+
 import javax.persistence.Column;
 
 @Entity(name = "Assessment")

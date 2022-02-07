@@ -6,7 +6,7 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import com.digicare.digicare_rest_test.controller.CaregiverController;
-import com.digicare.digicare_rest_test.model.Caregiver;
+import com.digicare.digicare_rest_test.model.user.Caregiver;
 
 
 @Component

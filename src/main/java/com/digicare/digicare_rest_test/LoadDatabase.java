@@ -1,6 +1,7 @@
 package com.digicare.digicare_rest_test;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Calendar;
 
 
@@ -13,6 +14,13 @@ import org.springframework.context.annotation.Configuration;
 
 import com.digicare.digicare_rest_test.repository.*;
 import com.digicare.digicare_rest_test.model.*;
+import com.digicare.digicare_rest_test.model.role.Role;
+import com.digicare.digicare_rest_test.model.role.RoleName;
+import com.digicare.digicare_rest_test.model.user.Address;
+import com.digicare.digicare_rest_test.model.user.Caregiver;
+import com.digicare.digicare_rest_test.model.user.Doctor;
+import com.digicare.digicare_rest_test.model.user.Gender;
+import com.digicare.digicare_rest_test.model.user.Patient;
 import com.digicare.digicare_rest_test.utils.DateUtils;
 
 
@@ -39,18 +47,28 @@ class LoadDatabase {
 	Date dob_cg1 = DateUtils.calendarFor(1965, Calendar.JUNE, 22).getTime();
 	Date dob_cg2 = DateUtils.calendarFor(1965, Calendar.JUNE, 22).getTime();
 
-   
+  
+	Role patient_role = new Role(RoleName.valueOf("ROLE_PATIENT"));
+	Role caregiver_role = new Role(RoleName.valueOf("ROLE_CG"));
+	Role doctor_role = new Role(RoleName.valueOf("ROLE_DOCTOR"));
 	
-	Patient patient1 = new Patient("Danial", "Aziz", "danaziz@gmail.com","abcd1234", "03045678901",
-  		  dob_patient1, Gender.valueOf("MALE"),"address",22,"03045678901");
+	Address add_1 = new Address();
+	Address add_2 = new Address();
+	Address add_3 = new Address();
+	Address add_4 = new Address();
+	Address add_5 = new Address();
 	
-	Patient patient2 = new Patient("Muhammad", "Azam", "danaziz@gmail.com","abcd1234","03045678902",dob_patient2,
-  		  Gender.valueOf("MALE"),"address",22,"03045678902");
 	
-	Doctor doctor1 = new Doctor("Afzal","Hakim","afzalhakim@gmail.com","WAkbP","23411092372",dob_doctor1,Gender.valueOf("MALE"),"House 1, Street 18, Karachi",39,"23411092372");
+	User patient1 = new User("Bilal","Hakim", false, "bilalHakim@gmail.com","abcd1234", "55863696090",
+			dob_patient1, Gender.valueOf("MALE"),"1210114900231", 24, List.of(patient_role), A);
 	
-	Caregiver caregiver1 = new Caregiver("Adnan","Habib","adnanhabib@seecs.edu.pk","GnRQS","91175456598",dob_cg1,Gender.valueOf("MALE"),"House 34, Street 37, Islamabad",75,"Father",patient1);
-	Caregiver caregiver2 = new Caregiver("Afzal","Habib","afzalhabib@gmail.com","RH25x","55763696090",dob_cg2,Gender.valueOf("MALE"),"House 34, Street 18, Karachi",66,"Brother",patient2);
+	Patient patient2 = new Patient("Muhammad", "Azam", "muhammadazam@gmail.com","abcd1234","03045678902",dob_patient2,
+  		  Gender.valueOf("MALE"),"address",22,"USER","03045678902");
+	
+	Doctor doctor1 = new Doctor("Afzal","Hakim","afzalhakim@gmail.com","WAkbP","23411092372",dob_doctor1,Gender.valueOf("MALE"),"House 1, Street 18, Karachi",39,"USER","23411092372");
+	
+	Caregiver caregiver1 = new Caregiver("Adnan","Habib","adnanhabib@seecs.edu.pk","GnRQS","91175456598",dob_cg1,Gender.valueOf("MALE"),"House 34, Street 37, Islamabad",75,"USER","Father",patient1);
+	Caregiver caregiver2 = new Caregiver("Afzal","Habib","afzalhabib@gmail.com","RH25x","55763696090",dob_cg2,Gender.valueOf("MALE"),"House 34, Street 18, Karachi",66,"USER","Brother",patient2);
 
 	Sensor sensor1 = new Sensor("max30102","Pulse Oximeter");
 	Sensor sensor2 = new Sensor("mpu3040","Heart Rate Sensor");

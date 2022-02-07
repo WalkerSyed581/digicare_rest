@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.digicare.digicare_rest_test.config.JwtTokenUtil;
+import com.digicare.digicare_rest_test.security.JwtTokenProvider;
 import com.digicare.digicare_rest_test.model.JwtRequest;
 import com.digicare.digicare_rest_test.model.JwtResponse;
 
@@ -28,7 +28,7 @@ public class JwtAuthenticationController {
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
+	private JwtTokenProvider jwtTokenUtil;
 
 	@Autowired
 	private UserDetailsService jwtInMemoryUserDetailsService;
@@ -37,10 +37,10 @@ public class JwtAuthenticationController {
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
 			throws Exception {
 
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+		authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 
 		final UserDetails userDetails = jwtInMemoryUserDetailsService
-				.loadUserByUsername(authenticationRequest.getUsername());
+				.loadUserByUsername(authenticationRequest.getEmail());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 

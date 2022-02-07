@@ -1,89 +1,136 @@
-package com.digicare.digicare_rest_test.model;
+package com.digicare.digicare_rest_test.model.user;
 
 import java.util.Objects;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@MappedSuperclass
-public abstract class AbstractUser implements Serializable {
+import com.digicare.digicare_rest_test.model.role.Role;
+
+@Entity
+@Table(name = "user")
+public class User {
 
   @Id
   @GeneratedValue
   @Column(name = "id", updatable = false, nullable = false)
   protected Long id;
 
-  @Column(table="USER_TABLE")
+  @Column
   private String firstName;
 
-  @Column(table="USER_TABLE")
+  @Column
   private String lastName;
 
-  @Column(table="USER_TABLE")
+  @Column
   private boolean active;
   
-  @Column(table="USER_TABLE")
+  @Column(unique=true)
   private String email;
 
-  @Column(table="USER_TABLE")
+  @Column
   private String password;
 
-  @Column(length = 11,table="USER_TABLE")
+  @Column(length = 11)
   private String phone_no;
   
   @Temporal(TemporalType.DATE)
-  @Column(table="USER_TABLE")
+  @Column
   private Date dob;
 
   @Enumerated(EnumType.STRING)
-  @Column(table="USER_TABLE")
+  @Column
   private Gender gender;
 
-  @Column(table="USER_TABLE")
-  private String address;
 
-  @Column(length = 13,table="USER_TABLE")
+  @Column(length = 13)
   private String cnic;
 
-  @Column(table="USER_TABLE")
+  @Column
   private int age;
 
-  @Column(table="USER_TABLE")
-  private String roles;
-
-
-
-  public boolean isActive() {
-	return active;
-}
-
-public void setActive(boolean active) {
-	this.active = active;
-}
-
-public String getRoles() {
-	return roles;
-  }
   
-  public void setRoles(String roles) {
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+  private List<Role> roles;
+
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "address_id")
+  private Address address;
+
+  
+  
+  public User(Long id, String firstName, String lastName, boolean active, String email, String password, String phone_no,
+		Date dob, Gender gender, String cnic, int age, List<Role> roles, Address address) {
+	super();
+	this.id = id;
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.active = active;
+	this.email = email;
+	this.password = password;
+	this.phone_no = phone_no;
+	this.dob = dob;
+	this.gender = gender;
+	this.cnic = cnic;
+	this.age = age;
 	this.roles = roles;
+	this.address = address;
   }
 
-public String getAddress() {
-    return address;
+public boolean isActive() {
+	return active;
+  }
+
+  public void setActive(boolean active) {
+	this.active = active;
+  }
+	
+  public List<Role> getRoles() {
+	return roles == null ? null : new ArrayList<>(roles);
+  }
+
+  public void setRoles(List<Role> roles) {
+	if (roles == null) {
+		this.roles = null;
+	} else {
+		this.roles = Collections.unmodifiableList(roles);
+	}
+  }
+
+  public Address getAddress() {
+	return address;
+  }
+
+  public void setAddress(Address address) {
+	this.address = address;
   }
 
   public int getAge() {
     return age;
   }
+  
   public String getCnic() {
     return cnic;
   }
@@ -126,9 +173,7 @@ public String getAddress() {
     this.lastName = parts[1];
   }
 
-  public void setAddress(String address) {
-    this.address = address;
-  }
+  
   public void setAge(int age) {
     this.age = age;
   }

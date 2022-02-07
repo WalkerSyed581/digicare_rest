@@ -1,16 +1,21 @@
 package com.digicare.digicare_rest_test.security;
 
 
-import com.digicare.digicare_rest_test.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.digicare.digicare_rest_test.model.user.User;
+
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
+
+
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	
@@ -22,12 +27,11 @@ public class UserPrincipal implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserPrincipal(User user) {
-	        this.username = user.getEmail();
-	        this.password = user.getPassword();
-	        this.active = user.isActive();
-	        this.authorities = Arrays.stream(user.getRoles().split(","))
-	                .map(SimpleGrantedAuthority::new)
-	                .collect(Collectors.toList());
+	    this.username = user.getEmail();
+	    this.password = user.getPassword();
+	    this.active = user.isActive();
+	    this.authorities = user.getRoles().stream()
+				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 	}
 	
 	@Override

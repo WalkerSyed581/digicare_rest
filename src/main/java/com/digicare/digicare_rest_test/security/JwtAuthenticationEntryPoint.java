@@ -1,4 +1,4 @@
-package com.digicare.digicare_rest_test.config;
+package com.digicare.digicare_rest_test.security;
 
 import java.io.IOException;
 import java.io.Serializable;

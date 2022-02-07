@@ -1,7 +1,7 @@
 package com.digicare.digicare_rest_test.filters;
 
-import io.javabrains.springsecurityjwt.MyUserDetailsService;
-import io.javabrains.springsecurityjwt.util.JwtUtil;
+import com.digicare.digicare_rest_test.security.*;
+import com.digicare.digicare_rest_test.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,13 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserPrincipal userDetailsService;
+    private JwtUserDetailsService userDetailsService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtTokenProvider jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

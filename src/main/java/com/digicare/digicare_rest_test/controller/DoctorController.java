@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.digicare.digicare_rest_test.assembler.DoctorModelAssembler;
 import com.digicare.digicare_rest_test.exception.UserNotFoundException;
-import com.digicare.digicare_rest_test.model.Doctor;
+import com.digicare.digicare_rest_test.model.user.Doctor;
 import com.digicare.digicare_rest_test.repository.DoctorRepository;
 
 import org.springframework.hateoas.EntityModel;
@@ -61,19 +61,19 @@ public class DoctorController {
     return assembler.toModel(Doctor);
   }
 
-  @PutMapping("/doctors/{id}")
-  public Doctor replaceEmployee(@RequestBody Doctor newDoctor, @PathVariable Long id) {
-    
-    return repository.findById(id)
-      .map(Doctor -> {
-        Doctor.setName(newDoctor.getName());
-        return repository.save(Doctor);
-      })
-      .orElseGet(() -> {
-    	  newDoctor.setId(id);
-    	  return repository.save(newDoctor);
-      });
-  }
+//  @PutMapping("/doctors/{id}")
+//  public Doctor replaceEmployee(@RequestBody Doctor newDoctor, @PathVariable Long id) {
+//    
+//    return repository.findById(id)
+//      .map(Doctor -> {
+//        Doctor.setName(newDoctor.getName());
+//        return repository.save(Doctor);
+//      })
+//      .orElseGet(() -> {
+//    	  newDoctor.setId(id);
+//    	  return repository.save(newDoctor);
+//      });
+//  }
 
   @DeleteMapping("/doctors/{id}")
   void deleteEmployee(@PathVariable Long id) {

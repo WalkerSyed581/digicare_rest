@@ -6,6 +6,8 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.MapsId;
 
+import com.digicare.digicare_rest_test.model.user.Patient;
+
 // import org.apache.logging.log4j.message.TimestampMessage;
 
 import javax.persistence.ManyToOne;

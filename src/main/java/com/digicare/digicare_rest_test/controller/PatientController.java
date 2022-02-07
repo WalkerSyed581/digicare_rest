@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.digicare.digicare_rest_test.assembler.PatientModelAssembler;
 import com.digicare.digicare_rest_test.exception.UserNotFoundException;
-import com.digicare.digicare_rest_test.model.Patient;
+import com.digicare.digicare_rest_test.model.user.Patient;
 import com.digicare.digicare_rest_test.repository.PatientRepository;
 
 import org.springframework.hateoas.EntityModel;
@@ -61,19 +61,19 @@ public class PatientController {
     return assembler.toModel(patient);
   }
 
-  @PutMapping("/patients/{id}")
-  public Patient replaceEmployee(@RequestBody Patient newPatient, @PathVariable Long id) {
-    
-    return repository.findById(id)
-      .map(patient -> {
-        patient.setName(newPatient.getName());
-        return repository.save(patient);
-      })
-      .orElseGet(() -> {
-    	  newPatient.setId(id);
-    	  return repository.save(newPatient);
-      });
-  }
+//  @PutMapping("/patients/{id}")
+//  public Patient replaceEmployee(@RequestBody Patient newPatient, @PathVariable Long id) {
+//    
+//    return repository.findById(id)
+//      .map(patient -> {
+//        patient.setName(newPatient.getName());
+//        return repository.save(patient);
+//      })
+//      .orElseGet(() -> {
+//    	  newPatient.setId(id);
+//    	  return repository.save(newPatient);
+//      });
+//  }
 
   @DeleteMapping("/patients/{id}")
   void deleteEmployee(@PathVariable Long id) {
