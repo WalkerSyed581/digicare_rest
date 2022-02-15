@@ -25,6 +25,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+
+import org.hibernate.annotations.NaturalId;
 
 import com.digicare.digicare_rest_test.model.role.Role;
 
@@ -34,8 +37,7 @@ public class User {
 
   @Id
   @GeneratedValue
-  @Column(name = "id", updatable = false, nullable = false)
-  protected Long id;
+  private Long id;
 
   @Column
   private String firstName;
@@ -46,6 +48,12 @@ public class User {
   @Column
   private boolean active;
   
+  
+  @Column(unique=true)
+  private String username;
+  
+  @NaturalId
+  @Email
   @Column(unique=true)
   private String email;
 
@@ -75,21 +83,19 @@ public class User {
   @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
   private List<Role> roles;
 
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "address_id")
+  @OneToOne(cascade = CascadeType.MERGE)
+  @JoinColumn(name = "address_id",referencedColumnName = "id")
   private Address address;
 
   
-  
-  public User(Long id, String firstName, String lastName, boolean active, String email, String password, String phone_no,
-		Date dob, Gender gender, String cnic, int age, List<Role> roles, Address address) {
-	super();
-	this.id = id;
+  public User(String firstName, String lastName, boolean active, String email, String password, String phone_no,
+		Date dob, Gender gender, String cnic, int age,List<Role> roles, Address address) {
 	this.firstName = firstName;
 	this.lastName = lastName;
 	this.active = active;
 	this.email = email;
 	this.password = password;
+	this.username = email;
 	this.phone_no = phone_no;
 	this.dob = dob;
 	this.gender = gender;
@@ -97,6 +103,9 @@ public class User {
 	this.age = age;
 	this.roles = roles;
 	this.address = address;
+  }
+  public User() {
+	  
   }
 
 public boolean isActive() {
@@ -139,6 +148,12 @@ public boolean isActive() {
   }
   public String getEmail() {
     return email;
+  }
+  public String getUsername() {
+	  return email;
+  }
+  public void setUsername(String username) {
+	  this.email = username;
   }
   public String getFirstName() {
     return firstName;
@@ -207,26 +222,17 @@ public boolean isActive() {
 public int hashCode() {
 	return Objects.hash(cnic, email, id, phone_no);
 }
-
-@Override
-public boolean equals(Object obj) {
-	if (this == obj)
-		return true;
-	if (obj == null)
-		return false;
-	if (getClass() != obj.getClass())
-		return false;
-	User other = (User) obj;
-	return Objects.equals(cnic, other.getCnic()) && Objects.equals(email, other.getEmail()) && Objects.equals(id, other.id)
-			&& Objects.equals(phone_no, other.getPhone_no());
-}
-
 @Override
 public String toString() {
-	return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password="
-			+ password + ", phone_no=" + phone_no + ", dob=" + dob + ", gender=" + gender + ", address=" + address
-			+ ", cnic=" + cnic + ", age=" + age + "]";
+	return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", active=" + active
+			+ ", username=" + username + ", email=" + email + ", password=" + password + ", phone_no=" + phone_no
+			+ ", dob=" + dob + ", gender=" + gender + ", cnic=" + cnic + ", age=" + age + ", roles=" + roles
+			+ ", address=" + address + "]";
 }
+
+
+
+
   
   
   

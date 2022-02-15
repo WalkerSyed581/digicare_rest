@@ -6,20 +6,24 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 @Entity(name = "doctor")
 public class Doctor {
 	
 	@Id
-    @Column(name = "user_id")
-    private long userId;
+	@GeneratedValue
+    @Column(name = "id")
+    private long id;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name="user_id", referencedColumnName="id")
+	@OneToOne
+    @JoinColumn(name = "user_id",unique=true)
     private User user;
 
 	@Column(length = 11)
@@ -31,7 +35,6 @@ public class Doctor {
 
 	public Doctor(User user,String emergencey_contact) {
 		this.user = user;
-		this.userId = user.getId();
 		this.emergencey_contact = emergencey_contact;
 	}
 
@@ -47,16 +50,16 @@ public class Doctor {
 	
 
 	public Long getId() {
-		return userId;
+		return id;
 	}
 
 	public void setId(Long id) {
-		this.userId = id;
+		this.id = id;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(userId);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -68,12 +71,15 @@ public class Doctor {
 		if (getClass() != obj.getClass())
 			return false;
 		Patient other = (Patient) obj;
-		return Objects.equals(userId, other.getId());
+		return Objects.equals(id, other.getId());
 	}
 
 	
 	
-	
+	@Override
+	public String toString() {
+		return "Patient [id=" + id + ", user=" + user + ", emergencey_contact=" + emergencey_contact + "]";
+	}
 
 	  
 }
