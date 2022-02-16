@@ -21,6 +21,8 @@ import com.digicare.digicare_rest_test.model.user.Caregiver;
 import com.digicare.digicare_rest_test.model.user.Doctor;
 import com.digicare.digicare_rest_test.model.user.Gender;
 import com.digicare.digicare_rest_test.model.user.Patient;
+import com.digicare.digicare_rest_test.model.user.PatientDoctor;
+import com.digicare.digicare_rest_test.model.user.PatientDoctorKey;
 import com.digicare.digicare_rest_test.model.user.User;
 import com.digicare.digicare_rest_test.utils.DateUtils;
 
@@ -32,7 +34,7 @@ class LoadDatabase {
 
   @Bean
   CommandLineRunner initDatabase(
-		  RoleRepository role_repository,
+		  RoleRepository role_repository,		    
 		  AddressRepository address_repository,
 		  UserRepository user_repository,
 		  PatientRepository patient_repository,
@@ -40,7 +42,8 @@ class LoadDatabase {
 		  CaregiverRepository cg_repository,
 		  AssessmentRepository assessment_repository,
 		  SensorRepository sensor_repository,
-		  SensorPatientDataRepository reading_repository) {
+		  SensorPatientDataRepository reading_repository,
+		  PatientDoctorRepository permission_repository) {
 	  
 	Date dob_patient1 = DateUtils.calendarFor(1997, Calendar.APRIL, 11).getTime();
 	Date dob_patient2 = DateUtils.calendarFor(1995, Calendar.APRIL, 11).getTime();
@@ -114,6 +117,8 @@ class LoadDatabase {
 	SensorPatientData reading2 = new SensorPatientData(new Date(),37.47,patient2,sensor2);
 	SensorPatientData reading3 = new SensorPatientData(new Date(),99.00,patient1,sensor1);
 	
+	PatientDoctor permission1 = new PatientDoctor(new PatientDoctorKey(patient1.getId(),doctor1.getId()),patient1,doctor1);
+	
     return args -> {
 		log.info("Preloading " + patient_repository.save(patient1));
 		
@@ -136,6 +141,9 @@ class LoadDatabase {
 		log.info("Preloading " + reading_repository.save(reading2));
 		
 		log.info("Preloading " + reading_repository.save(reading3));
+		
+		log.info("Preloading " + permission_repository.save(permission1));
+
     };
   }
 }

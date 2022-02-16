@@ -2,12 +2,14 @@ package com.digicare.digicare_rest_test.model.user;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
@@ -28,6 +30,9 @@ public class Doctor {
 
 	@Column(length = 11)
   	private String emergencey_contact;
+	
+	@OneToMany(mappedBy = "doctor")
+    Set<PatientDoctor> permission;
 	
 	public Doctor() {
 		// TODO Auto-generated constructor stub
