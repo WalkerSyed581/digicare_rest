@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
@@ -19,8 +20,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 
-@Table
-@Entity(name = "patient")
+@Entity
+@Table(name = "patient")
 public class Patient  {
  
 	@Id
@@ -28,9 +29,7 @@ public class Patient  {
     @Column(name = "id")
     private long id;
 
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "user_id",referencedColumnName = "id")
-    private User user;
+	
 
  
 	@Column(length = 11)
@@ -41,8 +40,7 @@ public class Patient  {
 	
 	public Patient() {}
 
-	public Patient(User user,String emergencey_contact) {
-		this.user = user;
+	public Patient(String emergencey_contact) {
 		this.emergencey_contact = emergencey_contact;
 	}
 	
@@ -62,6 +60,10 @@ public class Patient  {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+
+	
+
 
 	@Override
 	public int hashCode() {
@@ -82,7 +84,7 @@ public class Patient  {
 
 	@Override
 	public String toString() {
-		return "Patient [id=" + id + ", user=" + user + ", emergencey_contact=" + emergencey_contact + "]";
+		return "Patient [id=" + id +  ", emergencey_contact=" + emergencey_contact + "]";
 	}
 
 	

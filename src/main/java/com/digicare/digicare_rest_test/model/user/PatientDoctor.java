@@ -14,7 +14,7 @@ public class PatientDoctor {
 
     @ManyToOne
     @MapsId("patientId")
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "patient_id")
     Patient patient;
 
     @ManyToOne
@@ -25,8 +25,9 @@ public class PatientDoctor {
 	public PatientDoctor(PatientDoctorKey id, Patient patient, Doctor doctor) {
 		super();
 		this.id = id;
-		this.patient = patient;
 		this.doctor = doctor;
+		this.patient = patient;
+
 	}
 	
 	public PatientDoctor() {}
@@ -39,21 +40,7 @@ public class PatientDoctor {
 		this.id = id;
 	}
 
-	public Patient getPatient() {
-		return patient;
-	}
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
+	
 
     
     

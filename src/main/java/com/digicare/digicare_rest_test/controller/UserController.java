@@ -60,6 +60,16 @@ public class UserController {
 
     return assembler.toModel(User);
   }
+  
+//Single item
+  
+ @GetMapping("/users/email/{email}")
+ public EntityModel<User> byEmail(@PathVariable String email) {
+   User User = repository.findByEmail(email) //
+       .orElseThrow(() -> new UserNotFoundException(email));
+
+   return assembler.toModel(User);
+ }
 
 //  @PutMapping("/users/{id}")
 //  public User replaceEmployee(@RequestBody User newUser, @PathVariable Long id) {

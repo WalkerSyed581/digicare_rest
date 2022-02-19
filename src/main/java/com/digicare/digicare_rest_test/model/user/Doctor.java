@@ -24,9 +24,6 @@ public class Doctor {
     @Column(name = "id")
     private long id;
 
-	@OneToOne
-    @JoinColumn(name = "user_id",unique=true)
-    private User user;
 
 	@Column(length = 11)
   	private String emergencey_contact;
@@ -38,8 +35,7 @@ public class Doctor {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Doctor(User user,String emergencey_contact) {
-		this.user = user;
+	public Doctor(String emergencey_contact) {
 		this.emergencey_contact = emergencey_contact;
 	}
 
@@ -60,6 +56,18 @@ public class Doctor {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	
+
+	
+
+	public Set<PatientDoctor> getPermission() {
+		return permission;
+	}
+
+	public void setPermission(Set<PatientDoctor> permission) {
+		this.permission = permission;
 	}
 
 	@Override
@@ -83,7 +91,7 @@ public class Doctor {
 	
 	@Override
 	public String toString() {
-		return "Patient [id=" + id + ", user=" + user + ", emergencey_contact=" + emergencey_contact + "]";
+		return "Doctor [id=" + id +  ", emergencey_contact=" + emergencey_contact + "]";
 	}
 
 	  

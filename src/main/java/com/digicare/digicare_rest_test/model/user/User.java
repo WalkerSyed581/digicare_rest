@@ -30,6 +30,7 @@ import javax.validation.constraints.Email;
 import org.hibernate.annotations.NaturalId;
 
 import com.digicare.digicare_rest_test.model.role.Role;
+import com.digicare.digicare_rest_test.model.role.RoleName;
 
 @Entity
 @Table(name = "user")
@@ -37,6 +38,7 @@ public class User {
 
   @Id
   @GeneratedValue
+  @Column(name = "id")
   private Long id;
 
   @Column
@@ -63,6 +65,7 @@ public class User {
   @Column(length = 11)
   private String phone_no;
   
+  
   @Temporal(TemporalType.DATE)
   @Column
   private Date dob;
@@ -86,10 +89,22 @@ public class User {
   @OneToOne(cascade = CascadeType.MERGE)
   @JoinColumn(name = "address_id",referencedColumnName = "id")
   private Address address;
+  
+  @OneToOne(cascade = CascadeType.MERGE)
+  @JoinColumn(name = "patient_id",referencedColumnName = "id")
+  private Patient patient;
+  
+  @OneToOne(cascade = CascadeType.MERGE)
+  @JoinColumn(name = "doctor_id",referencedColumnName = "id")
+  private Doctor doctor;
+  
+  @OneToOne(cascade = CascadeType.MERGE)
+  @JoinColumn(name = "cg_id",referencedColumnName = "id")
+  private Caregiver caregiver;
 
   
   public User(String firstName, String lastName, boolean active, String email, String password, String phone_no,
-		Date dob, Gender gender, String cnic, int age,List<Role> roles, Address address) {
+		Date dob, Gender gender, String cnic, int age,List<Role> roles, Address address,Object type) {
 	this.firstName = firstName;
 	this.lastName = lastName;
 	this.active = active;
@@ -103,6 +118,13 @@ public class User {
 	this.age = age;
 	this.roles = roles;
 	this.address = address;
+	if(roles.get(0).getName() == RoleName.valueOf("ROLE_PATIENT") ){
+		this.patient = (Patient) type;
+	} else if(roles.get(0).getName() == RoleName.valueOf("ROLE_CG")) {
+		this.caregiver = (Caregiver) type;
+	} else if(roles.get(0).getName() == RoleName.valueOf("ROLE_DOCTOR")) {
+		this.doctor = (Doctor) type;		
+	}
   }
   public User() {
 	  
@@ -181,8 +203,27 @@ public boolean isActive() {
   public void setId(Long id) {
     this.id = id;
   }
-
-  public void setName(String name) {
+  
+  
+  public Patient getPatient() {
+	return patient;
+  }
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+	public Doctor getDoctor() {
+	return doctor;
+	}
+public void setDoctor(Doctor doctor) {
+	this.doctor = doctor;
+}
+public Caregiver getCaregiver() {
+	return caregiver;
+}
+public void setCaregiver(Caregiver caregiver) {
+	this.caregiver = caregiver;
+}
+public void setName(String name) {
     String[] parts = name.split(" ");
     this.firstName = parts[0];
     this.lastName = parts[1];

@@ -23,9 +23,7 @@ public class Caregiver {
     private long id;
 
 	
-	@OneToOne
-    @JoinColumn(name = "user_id",unique=true)
-    private User user;
+	
  
 	
 	@Column(length = 11)
@@ -42,8 +40,7 @@ public class Caregiver {
 	}
 
 
-	public Caregiver(User user,String relationship,Patient patient) {
-		this.user = user;
+	public Caregiver(String relationship,Patient patient) {
 		this.relationship = relationship;
 		this.patient = patient;
 	}
@@ -58,6 +55,29 @@ public class Caregiver {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+
+
+
+	public String getRelationship() {
+		return relationship;
+	}
+
+
+	public void setRelationship(String relationship) {
+		this.relationship = relationship;
+	}
+
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -79,7 +99,7 @@ public class Caregiver {
 
 	@Override
 	public String toString() {
-		return "Caregiver [id=" + id + ", user=" + user + ", relationship=" + relationship + ", patient=" + patient
+		return "Caregiver [id=" + id +  ", relationship=" + relationship + ", patient=" + patient
 				+ "]";
 	}
 

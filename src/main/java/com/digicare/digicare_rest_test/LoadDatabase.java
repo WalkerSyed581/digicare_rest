@@ -75,40 +75,45 @@ class LoadDatabase {
 	address_repository.save(add_4);
 	address_repository.save(add_5);
 
+	Patient patient1 = new Patient("12345678901");
+	
+	Patient patient2 = new Patient("12345678901");
+	
+
+	Doctor doctor1 = new Doctor("01230459291");
+	
+	Caregiver caregiver1 = new Caregiver("Father",patient1);
+	
+	Caregiver caregiver2 = new Caregiver("Brother",patient2);
+
+	
+	patient_repository.save(patient1);
+	patient_repository.save(patient2);
+	doctor_repository.save(doctor1);
+	cg_repository.save(caregiver1);
+	cg_repository.save(caregiver2);
+
 	
 	User user1 = new User("Bilal","Hakim",false,"bilalHakim@gmail.com","abcd1234", "55863696091",
-			dob_patient1,Gender.valueOf("MALE"),"1210114900231", 24, List.of(patient_role),add_1);
+			dob_patient1,Gender.valueOf("MALE"),"1210114900231", 24, List.of(patient_role),add_1,patient1);
 	
 	User user2 = new User("Adnan","Karim",false,"adnanKarim@gmail.com","abcd1234", "55863696091",
-			dob_patient1,Gender.valueOf("MALE"),"1210114900231", 24, List.of(patient_role),add_2);
+			dob_patient1,Gender.valueOf("MALE"),"1210114900231", 24, List.of(patient_role),add_2,patient2);
 	
 	User user3 = new User("Afzal","Hakim",false,"afzalhakim@gmail.com","WAkbP","23411092372",dob_doctor1,Gender.valueOf("MALE"),
-			"1230129803421",39,List.of(doctor_role),add_3);
+			"1230129803421",39,List.of(doctor_role),add_3,doctor1);
 	
 	User user4 = new User("Adnan","Habib",false,"adnanhabib@seecs.edu.pk","GnRQS","91175456598",dob_cg1,Gender.valueOf("MALE"),
-			"1230129803428",75,List.of(caregiver_role),add_4);
+			"1230129803428",75,List.of(caregiver_role),add_4,caregiver1);
 	
 	User user5 = new User("Afzal","Habib",false,"afzalhabib@gmail.com","RH25x","55763696090",dob_cg2,Gender.valueOf("MALE"),
-			"1230129803429",66,List.of(caregiver_role),add_5);
+			"1230129803429",66,List.of(caregiver_role),add_5,caregiver2);
 	
-	
-	user_repository.save(user1);
-	user_repository.save(user2);
-	user_repository.save(user3);
-	user_repository.save(user4);
-	user_repository.save(user5);
-	
-	
-	Patient patient1 = new Patient(user1,"12345678901");
-		
-	Patient patient2 = new Patient(user2,"12345678901");
-	
-	Doctor doctor1 = new Doctor(user3,"01230459291");
-	
-	Caregiver caregiver1 = new Caregiver(user4,"Father",patient1);
-	
-	Caregiver caregiver2 = new Caregiver(user5,"Brother",patient2);
 
+	
+
+	
+	
 	Sensor sensor1 = new Sensor("max30102","Pulse Oximeter");
 	Sensor sensor2 = new Sensor("mpu3040","Heart Rate Sensor");
 	Sensor sensor3 = new Sensor("ir1353","ECG Sensor");
@@ -120,15 +125,15 @@ class LoadDatabase {
 	PatientDoctor permission1 = new PatientDoctor(new PatientDoctorKey(patient1.getId(),doctor1.getId()),patient1,doctor1);
 	
     return args -> {
-		log.info("Preloading " + patient_repository.save(patient1));
+		log.info("Preloading " + user_repository.save(user1));
 		
-		log.info("Preloading " + patient_repository.save(patient2));
+		log.info("Preloading " + user_repository.save(user2));
 		
-		log.info("Preloading " + doctor_repository.save(doctor1));
+		log.info("Preloading " + user_repository.save(user3));
 		
-		log.info("Preloading " + cg_repository.save(caregiver1));
+		log.info("Preloading " + user_repository.save(user4));
 				
-		log.info("Preloading " + cg_repository.save(caregiver2));
+		log.info("Preloading " + user_repository.save(user5));
 		
 		log.info("Preloading " + sensor_repository.save(sensor1));
 		

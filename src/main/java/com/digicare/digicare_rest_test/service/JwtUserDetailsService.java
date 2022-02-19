@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.digicare.digicare_rest_test.repository.*;
 import com.digicare.digicare_rest_test.security.UserPrincipal;
+import com.digicare.digicare_rest_test.exception.UserNotFoundException;
 import com.digicare.digicare_rest_test.model.user.User;
 
 
@@ -19,7 +20,8 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(email);
+		 User user = userRepository.findByEmail(email) //
+			       .orElseThrow(() -> new UserNotFoundException(email));
 		UserPrincipal up = UserPrincipal.create(user);
 		return up;
 	}
