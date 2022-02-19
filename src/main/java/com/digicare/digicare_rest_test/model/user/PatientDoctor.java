@@ -15,14 +15,14 @@ public class PatientDoctor {
     @ManyToOne
     @MapsId("patientId")
     @JoinColumn(name = "patient_id")
-    Patient patient;
+    User patient;
 
     @ManyToOne
     @MapsId("doctorId")
     @JoinColumn(name = "doctor_id")
-    Doctor doctor;
+    User doctor;
 
-	public PatientDoctor(PatientDoctorKey id, Patient patient, Doctor doctor) {
+	public PatientDoctor(PatientDoctorKey id, User patient, User doctor) {
 		super();
 		this.id = id;
 		this.doctor = doctor;

@@ -30,7 +30,7 @@ public class Patient  {
     private long id;
 
 	
-
+	
  
 	@Column(length = 11)
   	private String emergencey_contact;

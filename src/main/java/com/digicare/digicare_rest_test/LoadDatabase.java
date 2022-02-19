@@ -82,16 +82,11 @@ class LoadDatabase {
 
 	Doctor doctor1 = new Doctor("01230459291");
 	
-	Caregiver caregiver1 = new Caregiver("Father",patient1);
 	
-	Caregiver caregiver2 = new Caregiver("Brother",patient2);
 
-	
 	patient_repository.save(patient1);
 	patient_repository.save(patient2);
 	doctor_repository.save(doctor1);
-	cg_repository.save(caregiver1);
-	cg_repository.save(caregiver2);
 
 	
 	User user1 = new User("Bilal","Hakim",false,"bilalHakim@gmail.com","abcd1234", "55863696091",
@@ -103,6 +98,19 @@ class LoadDatabase {
 	User user3 = new User("Afzal","Hakim",false,"afzalhakim@gmail.com","WAkbP","23411092372",dob_doctor1,Gender.valueOf("MALE"),
 			"1230129803421",39,List.of(doctor_role),add_3,doctor1);
 	
+
+	user_repository.save(user1);
+	
+	user_repository.save(user2);
+	
+	Caregiver caregiver1 = new Caregiver("Father",user1);
+	
+	Caregiver caregiver2 = new Caregiver("Brother",user2);
+	
+
+	cg_repository.save(caregiver1);
+	cg_repository.save(caregiver2);
+	
 	User user4 = new User("Adnan","Habib",false,"adnanhabib@seecs.edu.pk","GnRQS","91175456598",dob_cg1,Gender.valueOf("MALE"),
 			"1230129803428",75,List.of(caregiver_role),add_4,caregiver1);
 	
@@ -111,6 +119,11 @@ class LoadDatabase {
 	
 
 	
+	user_repository.save(user3);
+	
+	user_repository.save(user4);
+			
+	user_repository.save(user5);
 
 	
 	
@@ -118,22 +131,22 @@ class LoadDatabase {
 	Sensor sensor2 = new Sensor("mpu3040","Heart Rate Sensor");
 	Sensor sensor3 = new Sensor("ir1353","ECG Sensor");
 	
-	SensorPatientData reading1 = new SensorPatientData(new Date(),71.47,patient1,sensor1);
-	SensorPatientData reading2 = new SensorPatientData(new Date(),37.47,patient2,sensor2);
-	SensorPatientData reading3 = new SensorPatientData(new Date(),99.00,patient1,sensor1);
+	SensorPatientData reading1 = new SensorPatientData(new Date(),71.47,user1,sensor1);
+	SensorPatientData reading2 = new SensorPatientData(new Date(),37.47,user2,sensor2);
+	SensorPatientData reading3 = new SensorPatientData(new Date(),99.00,user1,sensor1);
 	
-	PatientDoctor permission1 = new PatientDoctor(new PatientDoctorKey(patient1.getId(),doctor1.getId()),patient1,doctor1);
+	PatientDoctor permission1 = new PatientDoctor(new PatientDoctorKey(user1.getId(),user3.getId()),user1,user3);
 	
     return args -> {
-		log.info("Preloading " + user_repository.save(user1));
+		log.info("Preloading " + user1);
 		
-		log.info("Preloading " + user_repository.save(user2));
+		log.info("Preloading " + user2);
 		
-		log.info("Preloading " + user_repository.save(user3));
-		
-		log.info("Preloading " + user_repository.save(user4));
+		log.info("Preloading " + user3);
+	
+		log.info("Preloading " + user4);
 				
-		log.info("Preloading " + user_repository.save(user5));
+		log.info("Preloading " + user5);
 		
 		log.info("Preloading " + sensor_repository.save(sensor1));
 		

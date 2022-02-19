@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.MapsId;
 
 import com.digicare.digicare_rest_test.model.user.Patient;
+import com.digicare.digicare_rest_test.model.user.User;
 
 // import org.apache.logging.log4j.message.TimestampMessage;
 
@@ -33,7 +34,7 @@ public class SensorPatientData {
 	private double reading;
 	
 	@ManyToOne(optional = false)
-	private Patient patient;	
+	private User patient;	
 	
 	@ManyToOne(optional = false)
 	private Sensor sensor;
@@ -67,11 +68,11 @@ public class SensorPatientData {
 		this.reading = reading;
 	}
 
-	public Patient getPatient() {
+	public User getPatient() {
 		return patient;
 	}
 
-	public void setPatient(Patient patient) {
+	public void setPatient(User patient) {
 		this.patient = patient;
 	}
 
@@ -87,7 +88,7 @@ public class SensorPatientData {
 		super();
 	}
 
-	public SensorPatientData(Date timestamp, double reading, Patient patient, Sensor sensor) {
+	public SensorPatientData(Date timestamp, double reading, User patient, Sensor sensor) {
 		super();
 		this.reading = reading;
 		this.patient = patient;

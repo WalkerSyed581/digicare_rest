@@ -32,7 +32,7 @@ public class Caregiver {
 	
 	@OneToOne(optional = false)
 	@JoinColumn(name = "patient_id", referencedColumnName = "id")
-	private Patient patient;
+	private User patient;
 
 
 	public Caregiver() {
@@ -40,7 +40,7 @@ public class Caregiver {
 	}
 
 
-	public Caregiver(String relationship,Patient patient) {
+	public Caregiver(String relationship,User patient) {
 		this.relationship = relationship;
 		this.patient = patient;
 	}
@@ -69,12 +69,12 @@ public class Caregiver {
 	}
 
 
-	public Patient getPatient() {
+	public User getPatient() {
 		return patient;
 	}
 
 
-	public void setPatient(Patient patient) {
+	public void setPatient(User patient) {
 		this.patient = patient;
 	}
 
