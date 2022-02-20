@@ -64,11 +64,12 @@ public class SensorPatientDataController {
   }	
   
 	//@GetMapping("/readings/{patient_id}/{sensor_id}/{timestamp}")
-	 @GetMapping("/readings/patient/{patient_id}")
-	 public CollectionModel<EntityModel<SensorPatientData>> readingByPatient(@PathVariable Long patient_id) {
-	   List<EntityModel<SensorPatientData>> SensorPatientDatas = repository.findByPatientId(patient_id).stream() //
+	 @GetMapping("/readings/patient/{patient_id}/{sensor_id}")
+	 public CollectionModel<EntityModel<SensorPatientData>> readingByPatient(@PathVariable Long patient_id,@PathVariable Long sensor_id) {
+	   List<EntityModel<SensorPatientData>> SensorPatientDatas = repository.findByPatientIdAndSensorId(patient_id,sensor_id).stream() //
 		        .map(assembler::toModel) //
 		        .collect(Collectors.toList());
+	   System.out.println(SensorPatientDatas);
 	
 	    return CollectionModel.of(SensorPatientDatas, linkTo(methodOn(SensorPatientDataController.class).all()).withSelfRel());
 	 }	

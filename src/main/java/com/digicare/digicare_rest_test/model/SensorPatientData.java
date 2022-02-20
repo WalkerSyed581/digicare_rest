@@ -71,21 +71,21 @@ public class SensorPatientData {
 		this.reading = reading;
 	}
 
-	public User getPatient() {
-		return patient;
-	}
-
-	public void setPatient(User patient) {
-		this.patient = patient;
-	}
-
-	public Sensor getSensor() {
-		return sensor;
-	}
-
-	public void setSensor(Sensor sensor) {
-		this.sensor = sensor;
-	}
+//	public User getPatient() {
+//		return patient;
+//	}
+//
+//	public void setPatient(User patient) {
+//		this.patient = patient;
+//	}
+//
+//	public Sensor getSensor() {
+//		return sensor;
+//	}
+//
+//	public void setSensor(Sensor sensor) {
+//		this.sensor = sensor;
+//	}
 	
 	public SensorPatientData() {
 		super();

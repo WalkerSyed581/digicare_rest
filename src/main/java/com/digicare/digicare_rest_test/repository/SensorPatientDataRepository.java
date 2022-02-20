@@ -14,6 +14,6 @@ import com.digicare.digicare_rest_test.model.SensorPatientData;
 public interface SensorPatientDataRepository extends JpaRepository<SensorPatientData, Long> {
 	Optional<SensorPatientData> findById(Long id);
 	
-	List<SensorPatientData> findByPatientId(Long patient_id);
+	List<SensorPatientData> findByPatientIdAndSensorId(Long patient_id,Long sensor_id);
 
 }

@@ -59,11 +59,12 @@ public class Sensor {
 		this.data_desc = data_desc;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Sensor [name=" + name + ", data_desc=" + data_desc + "]";
+		return "Sensor [id=" + id + ", name=" + name + ", data_desc=" + data_desc + "]";
 	}
-
 
 	@Override
 	public int hashCode() {
