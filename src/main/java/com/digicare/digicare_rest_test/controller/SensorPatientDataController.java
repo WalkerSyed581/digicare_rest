@@ -62,6 +62,16 @@ public class SensorPatientDataController {
 
     return assembler.toModel(SensorPatientData);
   }	
+  
+	//@GetMapping("/readings/{patient_id}/{sensor_id}/{timestamp}")
+	 @GetMapping("/readings/patient/{patient_id}")
+	 public CollectionModel<EntityModel<SensorPatientData>> readingByPatient(@PathVariable Long patient_id) {
+	   List<EntityModel<SensorPatientData>> SensorPatientDatas = repository.findByPatientId(patient_id).stream() //
+		        .map(assembler::toModel) //
+		        .collect(Collectors.toList());
+	
+	    return CollectionModel.of(SensorPatientDatas, linkTo(methodOn(SensorPatientDataController.class).all()).withSelfRel());
+	 }	
 
 //  @PutMapping("/readings/{patient_id}/{sensor_id}/{timestamp}")
 //  public SensorPatientData replaceEmployee(@RequestBody SensorPatientData newSensorPatientData,@PathVariable Long patient_id,@PathVariable Long sensor_id,@PathVariable Date timestamp) {

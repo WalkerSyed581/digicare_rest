@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 
 
@@ -33,10 +34,12 @@ public class SensorPatientData {
 	@Column
 	private double reading;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne
+    @JoinColumn(name="patient_id", nullable=false)
 	private User patient;	
 	
-	@ManyToOne(optional = false)
+	@ManyToOne
+    @JoinColumn(name="sensor_id", nullable=false)
 	private Sensor sensor;
 	
 	@Column
