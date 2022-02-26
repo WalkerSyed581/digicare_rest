@@ -1,13 +1,13 @@
 package com.digicare.digicare_rest_test.assembler;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import com.digicare.digicare_rest_test.model.SensorPatientData;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import com.digicare.digicare_rest_test.controller.SensorPatientDataController;
-import com.digicare.digicare_rest_test.model.SensorPatientData;
-// import com.digicare.digicare_rest_test.model.SensorPatientDataId;
 
 
 @Component
