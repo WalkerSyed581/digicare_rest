@@ -41,7 +41,7 @@ class LoadDatabase {
 		  CaregiverRepository cg_repository,
 		  AssessmentRepository assessment_repository,
 		  SensorRepository sensor_repository,
-		  PatiendDoctorRepository reading_repository,
+		  SensorPatientRepository reading_repository,
 		  PatientDoctorRepository permission_repository) {
 	  
 	Date dob_patient1 = DateUtils.calendarFor(1997, Calendar.APRIL, 11).getTime();
@@ -130,9 +130,9 @@ class LoadDatabase {
 	Sensor sensor2 = new Sensor("mpu3040","Heart Rate Sensor");
 	Sensor sensor3 = new Sensor("ir1353","ECG Sensor");
 	
-	PatientDoctor reading1 = new PatientDoctor(new Date(),71.47,user1,sensor1);
-	PatientDoctor reading2 = new PatientDoctor(new Date(),37.47,user2,sensor2);
-	PatientDoctor reading3 = new PatientDoctor(new Date(),99.00,user1,sensor1);
+	SensorPatientData reading1 = new SensorPatientData(new Date(),71.47,user1,sensor1);
+  	SensorPatientData reading2 = new SensorPatientData(new Date(),37.47,user2,sensor2);
+ 	 SensorPatientData reading3 = new SensorPatientData(new Date(),99.00,user1,sensor1);
 	
 	com.digicare.digicare_rest_test.model.user.PatientDoctor permission1 = new com.digicare.digicare_rest_test.model.user.PatientDoctor(new PatientDoctorKey(user1.getId(),user3.getId()),user1,user3);
 	
