@@ -9,13 +9,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.digicare.digicare_rest_test.assembler.UserModelAssembler;
 import com.digicare.digicare_rest_test.exception.UserNotFoundException;
 import com.digicare.digicare_rest_test.model.user.User;
+import com.digicare.digicare_rest_test.payload.ApiResponse;
+import com.digicare.digicare_rest_test.payload.SignUpRequest;
 import com.digicare.digicare_rest_test.repository.UserRepository;
-
+import com.digicare.digicare_rest_test.security.CurrentUser;
+import com.digicare.digicare_rest_test.security.UserPrincipal;
+import com.digicare.digicare_rest_test.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.stream.Collectors;
@@ -27,6 +36,13 @@ public class UserController {
   private final UserRepository repository;
 
   private final UserModelAssembler assembler;
+
+  @Autowired
+	private UserService userService;
+
+
+  @Autowired
+	private ModelMapper modelMapper;
 
   UserController(UserRepository repository,UserModelAssembler assembler) {
     this.repository = repository;
@@ -47,8 +63,11 @@ public class UserController {
   // end::get-aggregate-root[]
 
   @PostMapping("/users")
-  public User newUser(@RequestBody User newUser) {
-    return repository.save(newUser);
+  public User newUser(@RequestBody SignUpRequest newUser) {
+    User user = new User();
+    modelMapper.map(newUser, user);
+    user.setEmail(newUser.getEmail());
+    return userService.addUser(user, newUser.getRole());
   }
 
   // Single item
@@ -86,7 +105,8 @@ public class UserController {
 //  }
 
   @DeleteMapping("/users/{id}")
-  void deleteEmployee(@PathVariable Long id) {
-    repository.deleteById(id);
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public ApiResponse deleteEmployee(@PathVariable Long id,@CurrentUser UserPrincipal currentUser) {
+    return userService.deleteUser(id,currentUser);
   }
 }

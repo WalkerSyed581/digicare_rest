@@ -77,6 +77,16 @@ public class PatientDoctorController {
         return CollectionModel.of(PatientDoctors, linkTo(methodOn(SensorPatientDataController.class).all()).withSelfRel());
     }
 
+    @GetMapping("/permission/doctor/{doctor_id}")
+    public CollectionModel<EntityModel<PatientDoctor>> permissionByDoctor(@PathVariable Long doctor_id) {
+        List<EntityModel<PatientDoctor>> PatientDoctors = repository.findByPatientId(doctor_id).stream() //
+                .map(assembler::toModel) //
+                .collect(Collectors.toList());
+        System.out.println(PatientDoctors);
+
+        return CollectionModel.of(PatientDoctors, linkTo(methodOn(SensorPatientDataController.class).all()).withSelfRel());
+    }
+
 //  @PutMapping("/readings/{patient_id}/{sensor_id}/{timestamp}")
 //  public SensorPatientData replaceEmployee(@RequestBody SensorPatientData newSensorPatientData,@PathVariable Long patient_id,@PathVariable Long sensor_id,@PathVariable Date timestamp) {
 //  	SensorPatientDataId id = new SensorPatientDataId(patient_id,sensor_id,timestamp);

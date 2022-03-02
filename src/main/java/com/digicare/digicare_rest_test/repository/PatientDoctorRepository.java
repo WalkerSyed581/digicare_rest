@@ -22,4 +22,7 @@ public interface PatientDoctorRepository extends JpaRepository<PatientDoctor, Pa
 
 	List<PatientDoctor> findByPatientId(@NotBlank Long patient_id);
 
+	List<PatientDoctor> findByDoctorId(@NotBlank Long doctor_id);
+
+
 }

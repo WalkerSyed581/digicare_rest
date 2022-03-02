@@ -55,7 +55,6 @@ public class User {
   private String username;
   
   @NaturalId
-  @Email
   @Column(unique=true)
   private String email;
 
@@ -102,30 +101,46 @@ public class User {
   @JoinColumn(name = "cg_id",referencedColumnName = "id")
   private Caregiver caregiver;
 
+  public User(String firstName, String lastName, String email, String password,Address address, String phone_no,
+		Date dob, Gender gender, String cnic, int age) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.address = address;
+    this.username = email;
+    this.phone_no = phone_no;
+    this.dob = dob;
+    this.gender = gender;
+    this.cnic = cnic;
+    this.age = age;	
+	}
   
   public User(String firstName, String lastName, boolean active, String email, String password, String phone_no,
 		Date dob, Gender gender, String cnic, int age,List<Role> roles, Address address,Object type) {
-	this.firstName = firstName;
-	this.lastName = lastName;
-	this.active = active;
-	this.email = email;
-	this.password = password;
-	this.username = email;
-	this.phone_no = phone_no;
-	this.dob = dob;
-	this.gender = gender;
-	this.cnic = cnic;
-	this.age = age;
-	this.roles = roles;
-	this.address = address;
-	if(roles.get(0).getName() == RoleName.valueOf("ROLE_PATIENT") ){
-		this.patient = (Patient) type;
-	} else if(roles.get(0).getName() == RoleName.valueOf("ROLE_CG")) {
-		this.caregiver = (Caregiver) type;
-	} else if(roles.get(0).getName() == RoleName.valueOf("ROLE_DOCTOR")) {
-		this.doctor = (Doctor) type;		
-	}
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.active = active;
+    this.email = email;
+    this.password = password;
+    this.username = email;
+    this.phone_no = phone_no;
+    this.dob = dob;
+    this.gender = gender;
+    this.cnic = cnic;
+    this.age = age;
+    this.roles = roles;
+    this.address = address;
+    if(roles.get(0).getName() == RoleName.valueOf("ROLE_PATIENT") ){
+      this.patient = (Patient) type;
+    } else if(roles.get(0).getName() == RoleName.valueOf("ROLE_CG")) {
+      this.caregiver = (Caregiver) type;
+    } else if(roles.get(0).getName() == RoleName.valueOf("ROLE_DOCTOR")) {
+      this.doctor = (Doctor) type;		
+    }
   }
+
+
   public User() {
 	  
   }
@@ -223,11 +238,7 @@ public Caregiver getCaregiver() {
 public void setCaregiver(Caregiver caregiver) {
 	this.caregiver = caregiver;
 }
-public void setName(String name) {
-    String[] parts = name.split(" ");
-    this.firstName = parts[0];
-    this.lastName = parts[1];
-  }
+
 
   
   public void setAge(int age) {

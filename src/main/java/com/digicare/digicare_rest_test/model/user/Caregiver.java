@@ -30,7 +30,7 @@ public class Caregiver {
   	private String relationship;
 	
 	
-	@OneToOne(optional = false)
+	@OneToOne
 	@JoinColumn(name = "patient_id", referencedColumnName = "id")
 	private User patient;
 
