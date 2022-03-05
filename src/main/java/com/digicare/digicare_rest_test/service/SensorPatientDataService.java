@@ -1,17 +1,20 @@
 package com.digicare.digicare_rest_test.service;
 
 import com.digicare.digicare_rest_test.model.SensorPatientData;
+import com.digicare.digicare_rest_test.payload.ApiResponse;
+import com.digicare.digicare_rest_test.payload.ReadingRequest;
+import com.digicare.digicare_rest_test.security.UserPrincipal;
 
 public interface SensorPatientDataService {
     //    UserIdentityAvailability checkEmailAvailability(String email);
 
 //    User getUserProfile(String username);
 
-    SensorPatientData addReading(SensorPatientData reading);
+    SensorPatientData addReading(ReadingRequest readingRequest, UserPrincipal currentUser);
 
-    SensorPatientData updateReading(SensorPatientData newReading);
+    SensorPatientData updateReading(ReadingRequest updatedReading, Long id, UserPrincipal currentUser);
 
-//    Delte deleteUser(String username);
+    ApiResponse deleteReading(Long id,UserPrincipal currentUser);
 
 //    UserProfile setOrUpdateInfo(UserPrincipal currentUser, InfoRequest infoRequest);
 }

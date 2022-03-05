@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.digicare.digicare_rest_test.assembler.SensorPatientDataModelAssembler;
 import com.digicare.digicare_rest_test.model.SensorPatientData;
+import com.digicare.digicare_rest_test.payload.ApiResponse;
+import com.digicare.digicare_rest_test.payload.ReadingRequest;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,11 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.digicare.digicare_rest_test.assembler.PatientDoctorModelAssembler;
 import com.digicare.digicare_rest_test.exception.ReadingNotFoundException;
 
 import com.digicare.digicare_rest_test.repository.SensorPatientRepository;
+import com.digicare.digicare_rest_test.security.CurrentUser;
+import com.digicare.digicare_rest_test.security.UserPrincipal;
+import com.digicare.digicare_rest_test.service.SensorPatientDataService;
+
 import org.springframework.hateoas.EntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.stream.Collectors;
@@ -27,6 +35,9 @@ public class SensorPatientDataController {
   private final SensorPatientRepository repository;
 
   private final SensorPatientDataModelAssembler assembler;
+
+  @Autowired
+	private SensorPatientDataService sensorPatientDataService;
 
   SensorPatientDataController(SensorPatientRepository repository, SensorPatientDataModelAssembler assembler) {
     this.repository = repository;
@@ -47,8 +58,8 @@ public class SensorPatientDataController {
   // end::get-aggregate-root[]
 
   @PostMapping("/readings")
-  public SensorPatientData newSensorPatientData(@RequestBody SensorPatientData newReading) {
-    return repository.save(newReading);
+  public SensorPatientData newSensorPatientData(@RequestBody ReadingRequest newReading,@CurrentUser UserPrincipal currentUser) {
+		return sensorPatientDataService.addReading(newReading, currentUser);
   }
 
   // Single item
@@ -89,7 +100,7 @@ public class SensorPatientDataController {
 
   // @DeleteMapping("/readings/{patient_id}/{sensor_id}/{timestamp}")
   @DeleteMapping("/readings/{id}")
-  void deleteEmployee(@PathVariable Long id) {
-    repository.deleteById(id);
+  public ApiResponse deleteReading(@PathVariable Long id,@CurrentUser UserPrincipal currentUser) {
+    return sensorPatientDataService.deleteReading(id,currentUser);
   }
 }
