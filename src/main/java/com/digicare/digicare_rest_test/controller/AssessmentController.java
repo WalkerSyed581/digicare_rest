@@ -13,9 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.digicare.digicare_rest_test.assembler.AssessmentModelAssembler;
 import com.digicare.digicare_rest_test.exception.UserNotFoundException;
 import com.digicare.digicare_rest_test.model.Assessment;
+import com.digicare.digicare_rest_test.payload.ApiResponse;
+import com.digicare.digicare_rest_test.payload.AssessmentRequest;
 import com.digicare.digicare_rest_test.repository.AssessmentRepository;
+import com.digicare.digicare_rest_test.security.CurrentUser;
+import com.digicare.digicare_rest_test.security.UserPrincipal;
+import com.digicare.digicare_rest_test.service.AssessmentService;
 
 import org.springframework.hateoas.EntityModel;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.stream.Collectors;
@@ -27,6 +34,9 @@ public class AssessmentController {
   private final AssessmentRepository repository;
 
   private final AssessmentModelAssembler assembler;
+
+  @Autowired
+	private AssessmentService assessmentService;
 
   AssessmentController(AssessmentRepository repository,AssessmentModelAssembler assembler) {
     this.repository = repository;
@@ -47,8 +57,8 @@ public class AssessmentController {
   // end::get-aggregate-root[]
 
   @PostMapping("/assessments")
-  public Assessment newAssessment(@RequestBody Assessment newUser) {
-    return repository.save(newUser);
+  public Assessment newAssessment(@RequestBody AssessmentRequest newAssessment,@CurrentUser UserPrincipal currentUser) {
+    return assessmentService.addAssessment(newAssessment,currentUser);
   }
 
   // Single item
@@ -62,27 +72,13 @@ public class AssessmentController {
   }
 
   @PutMapping("/assessments/{id}")
-  public Assessment replaceAssessment(@RequestBody Assessment newAssessment, @PathVariable Long id) {
-    
-    return repository.findById(id)
-      .map(Assessment -> {
-        Assessment.setCondition(newAssessment.getCondition());
-        Assessment.setData_desc(newAssessment.getData_desc());
-        Assessment.setDoctor(newAssessment.getDoctor());
-        Assessment.setNotes(newAssessment.getNotes());
-        Assessment.setPatient(newAssessment.getPatient());
-        Assessment.setRecommendations(newAssessment.getRecommendations());
-        Assessment.setCg_instr(newAssessment.getCg_instr());
-        return repository.save(Assessment);
-      })
-      .orElseGet(() -> {
-    	  newAssessment.setId(id);
-    	  return repository.save(newAssessment);
-      });
+  public Assessment replaceAssessment(@RequestBody AssessmentRequest newAssessment, @PathVariable Long id,@CurrentUser UserPrincipal currentUser){
+    return assessmentService.updateAssessment(newAssessment, id, currentUser);
   }
 
   @DeleteMapping("/assessments/{id}")
-  void deleteEmployee(@PathVariable Long id) {
-    repository.deleteById(id);
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public ApiResponse deleteEmployee(@PathVariable Long id,@CurrentUser UserPrincipal currentUser) {
+    return assessmentService.deleteAssessment(id,currentUser);
   }
 }

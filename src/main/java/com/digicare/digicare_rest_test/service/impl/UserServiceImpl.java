@@ -8,15 +8,15 @@ import com.digicare.digicare_rest_test.payload.SignUpRequest;
 import com.digicare.digicare_rest_test.exception.*;
 import com.digicare.digicare_rest_test.payload.UserIdentityAvailability;
 import com.digicare.digicare_rest_test.repository.AddressRepository;
-import com.digicare.digicare_rest_test.repository.CaregiverRepository;
-import com.digicare.digicare_rest_test.repository.DoctorRepository;
-import com.digicare.digicare_rest_test.repository.PatientRepository;
 import com.digicare.digicare_rest_test.repository.RoleRepository;
 import com.digicare.digicare_rest_test.repository.UserRepository;
 import com.digicare.digicare_rest_test.service.UserService;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 
@@ -24,6 +24,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.management.relation.RoleNotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -37,17 +39,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AddressRepository addressRepository;
 
-    @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
-    private CaregiverRepository caregiverRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public UserIdentityAvailability checkUsernameAvailability(String username) {
@@ -62,35 +59,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user,int role) {
+    public User addUser(SignUpRequest user) {
+
+
 
         if (userRepository.existsByEmail(user.getEmail())) {
             ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Email is already taken");
             throw new BadRequestException(apiResponse);
         }
+        RoleName user_rName = RoleName.values()[user.getRole() - 1];
+        User new_user = new User();
+        modelMapper.map(user, new_user);       
+
+    //    if(user_rName.equals(RoleName.ROLE_CG)){
+    //         if (!userRepository.existsById(user.getCg_user())) {
+    //             ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "No patient of this id exists");
+    //             throw new BadRequestException(apiResponse);
+                
+    //         }   
+    //         new_user.setCg_user(user.getCg_user());
+    //         new_user.setCg_relationship(user.getCg_relationship());
+    //     }
         
-        RoleName user_rName = RoleName.values()[role - 1];
-
-        if(user_rName.equals(RoleName.ROLE_PATIENT)){
-            Patient patient = new Patient();
-            patientRepository.save(patient);
-            user.setPatient(patient);
-
-            
-        } else if(user_rName.equals(RoleName.ROLE_DOCTOR)){
-            Doctor doctor = new Doctor();
-            doctorRepository.save(doctor);
-            user.setDoctor(doctor);
-
-        } else{
-            Caregiver cg = new Caregiver();
-            caregiverRepository.save(cg);
-            user.setCaregiver(cg);
-        }
-        user.setAddress(addressRepository.save(user.getAddress()));
-        user.setRoles(Arrays.asList((roleRepository.findByName(user_rName))));
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        new_user.setAddress(addressRepository.save(user.getAddress()));
+        new_user.setRoles(Arrays.asList(roleRepository.findByName(user_rName)));
+        new_user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(new_user);
     }
 
     @Override

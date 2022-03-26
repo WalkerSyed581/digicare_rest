@@ -3,7 +3,6 @@ package com.digicare.digicare_rest_test.assembler;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.digicare.digicare_rest_test.controller.PatientDoctorController;
-import com.digicare.digicare_rest_test.model.user.Patient;
 import com.digicare.digicare_rest_test.model.user.PatientDoctor;
 import com.digicare.digicare_rest_test.model.user.PatientDoctorKey;
 import org.springframework.hateoas.EntityModel;

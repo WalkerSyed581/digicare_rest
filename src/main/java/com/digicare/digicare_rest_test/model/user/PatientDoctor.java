@@ -40,8 +40,25 @@ public class PatientDoctor {
 		this.id = id;
 	}
 
+	public User getPatient() {
+		return patient;
+	}
+
+	public void setPatient(User patient) {
+		this.patient = patient;
+	}
+
+	public User getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(User doctor) {
+		this.doctor = doctor;
+	}
+
 	
 
+	
     
     
     

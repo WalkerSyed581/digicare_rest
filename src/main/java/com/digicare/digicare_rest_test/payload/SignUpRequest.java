@@ -25,7 +25,36 @@ public class SignUpRequest {
     private int age;
 
     private int role;
+    
+    private String emergencey_contact;
 
+    private long cg_user;
+
+    private String cg_relationship;
+
+    public String getEmergencey_contact() {
+        return emergencey_contact;
+    }
+
+    public void setEmergencey_contact(String emergencey_contact) {
+        this.emergencey_contact = emergencey_contact;
+    }
+
+    public long getCg_user() {
+        return cg_user;
+    }
+
+    public void setCg_user(long cg_user) {
+        this.cg_user = cg_user;
+    }
+
+    public String getCg_relationship() {
+        return cg_relationship;
+    }
+
+    public void setCg_relationship(String cg_relationship) {
+        this.cg_relationship = cg_relationship;
+    }
 
     public Address getAddress() {
         return address;

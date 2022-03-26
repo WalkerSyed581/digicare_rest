@@ -9,10 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.digicare.digicare_rest_test.model.user.Doctor;
-import com.digicare.digicare_rest_test.model.user.Patient;
-
 import javax.persistence.Column;
+
+import com.digicare.digicare_rest_test.model.user.*;
 
 @Entity(name = "Assessment")
 public class Assessment {
@@ -42,11 +41,11 @@ public class Assessment {
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "patient_id", referencedColumnName = "id")
-	private Patient patient;
+	private User patient;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "doctor_id", referencedColumnName = "id")
-	private Doctor doctor;
+	private User doctor;
 
 	public Long getId() {
 		return id;
@@ -96,21 +95,6 @@ public class Assessment {
 		this.data_desc = data_desc;
 	}
 
-	public Patient getPatient() {
-		return patient;
-	}
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
 
 	@Override
 	public int hashCode() {
@@ -131,7 +115,7 @@ public class Assessment {
 	}
 
 	public Assessment(Long id, String notes, String condition, String recommendations, String cg_instr,
-			String data_desc, Patient patient, Doctor doctor) {
+			String data_desc, User patient, User doctor) {
 		super();
 		this.id = id;
 		this.notes = notes;
@@ -143,11 +127,31 @@ public class Assessment {
 		this.doctor = doctor;
 	}
 
+	public Assessment(){
+		
+	}
+
 	@Override
 	public String toString() {
 		return "Assessment [id=" + id + ", notes=" + notes + ", condition=" + condition + ", redommendations="
 				+ recommendations + ", cg_instr=" + cg_instr + ", data_desc=" + data_desc + ", patient=" + patient
 				+ ", doctor=" + doctor + "]";
+	}
+
+	public User getPatient() {
+		return patient;
+	}
+
+	public void setPatient(User patient) {
+		this.patient = patient;
+	}
+
+	public User getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(User doctor) {
+		this.doctor = doctor;
 	}
 	
 	

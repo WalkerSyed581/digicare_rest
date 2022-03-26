@@ -1,14 +1,11 @@
 package com.digicare.digicare_rest_test.model.user;
 
 import java.util.Objects;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
@@ -25,15 +22,13 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Email;
 
 import org.hibernate.annotations.NaturalId;
 
 import com.digicare.digicare_rest_test.model.role.Role;
-import com.digicare.digicare_rest_test.model.role.RoleName;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 public class User {
 
   @Id
@@ -80,7 +75,18 @@ public class User {
   @Column
   private int age;
 
-  
+
+
+  @Column(length = 11)
+  private String emergencey_contact;
+
+  @ManyToOne(cascade={CascadeType.MERGE})
+  @JoinColumn(name="patient_id",nullable = true)
+  private User cg_user;
+
+  @Column(nullable = true)
+  private String cg_relationship;
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
   private List<Role> roles;
@@ -88,65 +94,45 @@ public class User {
   @OneToOne(cascade = CascadeType.MERGE)
   @JoinColumn(name = "address_id",referencedColumnName = "id")
   private Address address;
-  
-  @OneToOne(cascade = CascadeType.MERGE)
-  @JoinColumn(name = "patient_id",referencedColumnName = "id")
-  private Patient patient;
-  
-  @OneToOne(cascade = CascadeType.MERGE)
-  @JoinColumn(name = "doctor_id",referencedColumnName = "id")
-  private Doctor doctor;
-  
-  @OneToOne(cascade = CascadeType.MERGE)
-  @JoinColumn(name = "cg_id",referencedColumnName = "id")
-  private Caregiver caregiver;
 
-  public User(String firstName, String lastName, String email, String password,Address address, String phone_no,
-		Date dob, Gender gender, String cnic, int age) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.password = password;
-    this.address = address;
-    this.username = email;
-    this.phone_no = phone_no;
-    this.dob = dob;
-    this.gender = gender;
-    this.cnic = cnic;
-    this.age = age;	
-	}
-  
-  public User(String firstName, String lastName, boolean active, String email, String password, String phone_no,
-		Date dob, Gender gender, String cnic, int age,List<Role> roles, Address address,Object type) {
+  public User(String firstName, String lastName, boolean active, String email,
+      String password, String phone_no, Date dob, Gender gender, String cnic, int age,
+      String emergencey_contact, List<Role> roles, Address address,Object... cg_attrs) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.active = active;
+    this.username = email;
     this.email = email;
     this.password = password;
-    this.username = email;
     this.phone_no = phone_no;
     this.dob = dob;
     this.gender = gender;
     this.cnic = cnic;
     this.age = age;
+    this.emergencey_contact = emergencey_contact;
+
+    if (cg_attrs.length > 0) {
+      if (!(cg_attrs[0] instanceof User)) { 
+          throw new IllegalArgumentException("Wrong Input");
+      }
+      this.cg_user = (User)cg_attrs[0];
+    }
+    if (cg_attrs.length > 1) {
+        if (!(cg_attrs[1] instanceof String)) { 
+            throw new IllegalArgumentException("...");
+        }
+        this.cg_relationship = (String)cg_attrs[1];
+    }
     this.roles = roles;
     this.address = address;
-    if(roles.get(0).getName() == RoleName.valueOf("ROLE_PATIENT") ){
-      this.patient = (Patient) type;
-    } else if(roles.get(0).getName() == RoleName.valueOf("ROLE_CG")) {
-      this.caregiver = (Caregiver) type;
-    } else if(roles.get(0).getName() == RoleName.valueOf("ROLE_DOCTOR")) {
-      this.doctor = (Doctor) type;		
-    }
   }
-
 
   public User() {
 	  
   }
 
-public boolean isActive() {
-	return active;
+  public boolean isActive() {
+	  return active;
   }
 
   public void setActive(boolean active) {
@@ -163,6 +149,32 @@ public boolean isActive() {
 	} else {
 		this.roles = Collections.unmodifiableList(roles);
 	}
+  }
+
+  
+
+  public String getEmergencey_contact() {
+    return emergencey_contact;
+  }
+
+  public void setEmergencey_contact(String emergencey_contact) {
+    this.emergencey_contact = emergencey_contact;
+  }
+
+  public User getCg_user() {
+    return cg_user;
+  }
+
+  public void setCg_user(User cg_user) {
+    this.cg_user = cg_user;
+  }
+
+  public String getCg_relationship() {
+    return cg_relationship;
+  }
+
+  public void setCg_relationship(String cg_relationship) {
+    this.cg_relationship = cg_relationship;
   }
 
   public Address getAddress() {
@@ -220,25 +232,7 @@ public boolean isActive() {
   }
   
   
-  public Patient getPatient() {
-	return patient;
-  }
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
-	public Doctor getDoctor() {
-	return doctor;
-	}
-public void setDoctor(Doctor doctor) {
-	this.doctor = doctor;
-}
-public Caregiver getCaregiver() {
-	return caregiver;
-}
-public void setCaregiver(Caregiver caregiver) {
-	this.caregiver = caregiver;
-}
-
+  
 
   
   public void setAge(int age) {

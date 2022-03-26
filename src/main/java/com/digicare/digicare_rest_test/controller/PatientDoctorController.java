@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.digicare.digicare_rest_test.exception.PermissionNotFoundException;
 import com.digicare.digicare_rest_test.exception.UserNotFoundException;
-import com.digicare.digicare_rest_test.model.user.Patient;
 import com.digicare.digicare_rest_test.model.user.PatientDoctorKey;
+import com.digicare.digicare_rest_test.payload.PermissionRequest;
 import com.digicare.digicare_rest_test.repository.PatientDoctorRepository;
+import com.digicare.digicare_rest_test.service.impl.PatientDoctorServiceImpl;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +21,7 @@ import com.digicare.digicare_rest_test.exception.ReadingNotFoundException;
 import com.digicare.digicare_rest_test.model.user.PatientDoctor;
 
 import org.springframework.hateoas.EntityModel;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.stream.Collectors;
@@ -30,6 +32,9 @@ public class PatientDoctorController {
     private final PatientDoctorRepository repository;
 
     private final PatientDoctorModelAssembler assembler;
+
+    @Autowired
+    private PatientDoctorServiceImpl  patientDoctorService;
 
     PatientDoctorController(PatientDoctorRepository repository, PatientDoctorModelAssembler assembler) {
         this.repository = repository;
@@ -50,8 +55,8 @@ public class PatientDoctorController {
     // end::get-aggregate-root[]
 
     @PostMapping("/permission")
-    public PatientDoctor newSensorPatientData(@RequestBody PatientDoctor newReading) {
-        return repository.save(newReading);
+    public PatientDoctor newSensorPatientData(@RequestBody PermissionRequest newPermission) {
+        return patientDoctorService.addPermission(newPermission);
     }
 
     // Single item

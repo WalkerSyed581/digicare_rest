@@ -3,7 +3,6 @@ package com.digicare.digicare_rest_test.payload;
 import java.util.Date;
 
 import com.digicare.digicare_rest_test.model.Sensor;
-import com.digicare.digicare_rest_test.model.user.Patient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,10 +12,7 @@ public class ReadingRequest {
 	private double reading;
 
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date timestamp;
-
-	
-	
+	private Date timestamp;	
 
 	public Long getPatient_id() {
 		return patient_id;

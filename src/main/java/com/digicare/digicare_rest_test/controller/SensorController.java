@@ -13,9 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.digicare.digicare_rest_test.assembler.SensorModelAssembler;
 import com.digicare.digicare_rest_test.exception.UserNotFoundException;
 import com.digicare.digicare_rest_test.model.Sensor;
+import com.digicare.digicare_rest_test.payload.ApiResponse;
+import com.digicare.digicare_rest_test.payload.SensorRequest;
 import com.digicare.digicare_rest_test.repository.SensorRepository;
+import com.digicare.digicare_rest_test.security.CurrentUser;
+import com.digicare.digicare_rest_test.security.UserPrincipal;
+import com.digicare.digicare_rest_test.service.SensorService;
 
 import org.springframework.hateoas.EntityModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.stream.Collectors;
@@ -27,6 +33,9 @@ public class SensorController {
   private final SensorRepository repository;
 
   private final SensorModelAssembler assembler;
+
+  @Autowired
+	private SensorService sensorService;
 
   SensorController(SensorRepository repository,SensorModelAssembler assembler) {
     this.repository = repository;
@@ -47,8 +56,8 @@ public class SensorController {
   // end::get-aggregate-root[]
 
   @PostMapping("/sensors")
-  public Sensor newSensor(@RequestBody Sensor newUser) {
-    return repository.save(newUser);
+  public Sensor newSensor(@RequestBody SensorRequest newSensor) {
+    return sensorService.addSensor(newSensor);
   }
 
   // Single item
@@ -62,21 +71,12 @@ public class SensorController {
   }
 
   @PutMapping("/sensors/{id}")
-  public Sensor replaceEmployee(@RequestBody Sensor newSensor, @PathVariable Long id) {
-    
-    return repository.findById(id)
-      .map(Sensor -> {
-        Sensor.setName(newSensor.getName());
-        return repository.save(Sensor);
-      })
-      .orElseGet(() -> {
-    	  newSensor.setId(id);
-    	  return repository.save(newSensor);
-      });
+  public Sensor updateSensor(@RequestBody SensorRequest newSensor, @PathVariable Long id) {
+    return sensorService.updateSensor(newSensor, id);
   }
 
   @DeleteMapping("/sensors/{id}")
-  void deleteEmployee(@PathVariable Long id) {
-    repository.deleteById(id);
+  public ApiResponse deleteEmployee(@PathVariable Long id,@CurrentUser UserPrincipal currentUser) {
+    return sensorService.deleteSensor(id,currentUser);
   }
 }

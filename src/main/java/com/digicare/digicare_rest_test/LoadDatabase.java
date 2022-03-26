@@ -17,10 +17,7 @@ import com.digicare.digicare_rest_test.model.*;
 import com.digicare.digicare_rest_test.model.role.Role;
 import com.digicare.digicare_rest_test.model.role.RoleName;
 import com.digicare.digicare_rest_test.model.user.Address;
-import com.digicare.digicare_rest_test.model.user.Caregiver;
-import com.digicare.digicare_rest_test.model.user.Doctor;
 import com.digicare.digicare_rest_test.model.user.Gender;
-import com.digicare.digicare_rest_test.model.user.Patient;
 import com.digicare.digicare_rest_test.model.user.PatientDoctorKey;
 import com.digicare.digicare_rest_test.model.user.User;
 import com.digicare.digicare_rest_test.utils.DateUtils;
@@ -31,14 +28,10 @@ class LoadDatabase {
 
   private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-  @Bean
   CommandLineRunner initDatabase(
 		  RoleRepository role_repository,		    
 		  AddressRepository address_repository,
 		  UserRepository user_repository,
-		  PatientRepository patient_repository,
-		  DoctorRepository doctor_repository,
-		  CaregiverRepository cg_repository,
 		  AssessmentRepository assessment_repository,
 		  SensorRepository sensor_repository,
 		  SensorPatientRepository reading_repository,
@@ -74,47 +67,29 @@ class LoadDatabase {
 	address_repository.save(add_4);
 	address_repository.save(add_5);
 
-	Patient patient1 = new Patient("12345678901");
-	
-	Patient patient2 = new Patient("12345678901");
-	
-
-	Doctor doctor1 = new Doctor("01230459291");
 	
 	
-
-	patient_repository.save(patient1);
-	patient_repository.save(patient2);
-	doctor_repository.save(doctor1);
-
 	
 	User user1 = new User("Bilal","Hakim",false,"bilalHakim@gmail.com","abcd1234", "55863696091",
-			dob_patient1,Gender.valueOf("MALE"),"1210114900231", 24, List.of(patient_role),add_1,patient1);
+			dob_patient1,Gender.valueOf("MALE"),"1210114900231", 24,"55863696099", List.of(patient_role),add_1);
 	
 	User user2 = new User("Adnan","Karim",false,"adnanKarim@gmail.com","abcd1234", "55863696091",
-			dob_patient1,Gender.valueOf("MALE"),"1210114900231", 24, List.of(patient_role),add_2,patient2);
+	
+			dob_patient2,Gender.valueOf("MALE"),"1210114900231", 24,"55863696081", List.of(patient_role),add_2);
 	
 	User user3 = new User("Afzal","Hakim",false,"afzalhakim@gmail.com","WAkbP","23411092372",dob_doctor1,Gender.valueOf("MALE"),
-			"1230129803421",39,List.of(doctor_role),add_3,doctor1);
+			"1230129803421",39,"55863696199",List.of(doctor_role),add_3);
 	
 
 	user_repository.save(user1);
-	
 	user_repository.save(user2);
 	
-	Caregiver caregiver1 = new Caregiver("Father",user1);
-	
-	Caregiver caregiver2 = new Caregiver("Brother",user2);
-	
-
-	cg_repository.save(caregiver1);
-	cg_repository.save(caregiver2);
 	
 	User user4 = new User("Adnan","Habib",false,"adnanhabib@seecs.edu.pk","GnRQS","91175456598",dob_cg1,Gender.valueOf("MALE"),
-			"1230129803428",75,List.of(caregiver_role),add_4,caregiver1);
+			"1230129803428",75,"55863696109",List.of(caregiver_role),add_4,user1,"Brother");
 	
 	User user5 = new User("Afzal","Habib",false,"afzalhabib@gmail.com","RH25x","55763696090",dob_cg2,Gender.valueOf("MALE"),
-			"1230129803429",66,List.of(caregiver_role),add_5,caregiver2);
+			"1230129803429",66,"55863697109",List.of(caregiver_role),add_5,user2,"Father");
 	
 
 	

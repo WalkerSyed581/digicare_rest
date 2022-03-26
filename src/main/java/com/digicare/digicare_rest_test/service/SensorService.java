@@ -1,6 +1,9 @@
 package com.digicare.digicare_rest_test.service;
 
 import com.digicare.digicare_rest_test.model.Sensor;
+import com.digicare.digicare_rest_test.payload.ApiResponse;
+import com.digicare.digicare_rest_test.payload.SensorRequest;
+import com.digicare.digicare_rest_test.security.UserPrincipal;
 
 
 public interface SensorService {
@@ -9,11 +12,11 @@ public interface SensorService {
 
 //    User getUserProfile(String username);
 
-    Sensor addSensor(Sensor sensor);
+    Sensor addSensor(SensorRequest newSensor);
 
-    Sensor updateSensor(Sensor newSensor);
+    Sensor updateSensor(SensorRequest newSensor,Long id);
 
-//    Delte deleteUser(String username);
+    ApiResponse deleteSensor(Long id,UserPrincipal currentUser);
 
 //    UserProfile setOrUpdateInfo(UserPrincipal currentUser, InfoRequest infoRequest);
 }

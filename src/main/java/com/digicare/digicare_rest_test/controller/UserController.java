@@ -1,5 +1,6 @@
 package com.digicare.digicare_rest_test.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,9 +14,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.digicare.digicare_rest_test.assembler.UserModelAssembler;
 import com.digicare.digicare_rest_test.exception.UserNotFoundException;
+import com.digicare.digicare_rest_test.model.role.Role;
+import com.digicare.digicare_rest_test.model.role.RoleName;
 import com.digicare.digicare_rest_test.model.user.User;
 import com.digicare.digicare_rest_test.payload.ApiResponse;
 import com.digicare.digicare_rest_test.payload.SignUpRequest;
+import com.digicare.digicare_rest_test.repository.RoleRepository;
 import com.digicare.digicare_rest_test.repository.UserRepository;
 import com.digicare.digicare_rest_test.security.CurrentUser;
 import com.digicare.digicare_rest_test.security.UserPrincipal;
@@ -39,6 +43,9 @@ public class UserController {
 
   @Autowired
 	private UserService userService;
+
+  @Autowired
+	private RoleRepository roleRepository;
 
 
   @Autowired
@@ -64,10 +71,7 @@ public class UserController {
 
   @PostMapping("/users")
   public User newUser(@RequestBody SignUpRequest newUser) {
-    User user = new User();
-    modelMapper.map(newUser, user);
-    user.setEmail(newUser.getEmail());
-    return userService.addUser(user, newUser.getRole());
+    return userService.addUser(newUser);
   }
 
   // Single item
@@ -88,6 +92,18 @@ public class UserController {
        .orElseThrow(() -> new UserNotFoundException(email));
 
    return assembler.toModel(User);
+ }
+
+ @GetMapping("/users/role/{role}")
+ public CollectionModel<EntityModel<User>> byRole(@PathVariable String role) {
+   Role userRole = roleRepository.findByName(RoleName.valueOf(role));
+
+
+   List<EntityModel<User>> users = repository.findByRolesIn(Arrays.asList(userRole)).stream() //
+   .map(assembler::toModel) //
+   .collect(Collectors.toList());
+
+  return CollectionModel.of(users, linkTo(methodOn(UserController.class).all()).withSelfRel());
  }
 
 //  @PutMapping("/users/{id}")

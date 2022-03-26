@@ -7,7 +7,6 @@ import com.digicare.digicare_rest_test.security.*;
 import com.digicare.digicare_rest_test.payload.ApiResponse;
 import com.digicare.digicare_rest_test.payload.ReadingRequest;
 import com.digicare.digicare_rest_test.exception.*;
-import com.digicare.digicare_rest_test.repository.PatientRepository;
 import com.digicare.digicare_rest_test.repository.SensorPatientRepository;
 import com.digicare.digicare_rest_test.repository.SensorRepository;
 import com.digicare.digicare_rest_test.repository.UserRepository;
@@ -41,9 +40,9 @@ public class SensorPatientDataServiceImpl implements SensorPatientDataService {
 		SensorPatientData reading = new SensorPatientData();
 
 		modelMapper.map(readingRequest,reading);
-
+        System.out.println((userRepository.findById(readingRequest.getPatient_id())));
 		reading.setPatient(userRepository.findById(readingRequest.getPatient_id()).orElseThrow(() -> new UserNotFoundException(readingRequest.getPatient_id())));
-		reading.setSensor(sensorRepository.findById(readingRequest.getSensor_id()).orElseThrow(() -> new UserNotFoundException(readingRequest.getPatient_id())));
+		reading.setSensor(sensorRepository.findById(readingRequest.getSensor_id()).orElseThrow(() -> new SensorNotFoundException(readingRequest.getPatient_id())));
 
 
 		SensorPatientData newReading = sensorPatientRepository.save(reading);
