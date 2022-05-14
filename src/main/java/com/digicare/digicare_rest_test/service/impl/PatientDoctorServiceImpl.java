@@ -37,8 +37,11 @@ public class PatientDoctorServiceImpl implements PatientDoctorService {
 	public PatientDoctor addPermission(PermissionRequest newPermission) {
 		PatientDoctorKey permissionKey = new PatientDoctorKey();
 
+
+		System.out.println(newPermission);
+
 		modelMapper.map(newPermission,permissionKey);
-		
+		System.out.println(permissionKey);
 		
 		
         if (permissionRepository.existsById(permissionKey)) {
@@ -55,6 +58,8 @@ public class PatientDoctorServiceImpl implements PatientDoctorService {
 
 
 		PatientDoctor permission = new PatientDoctor();
+
+
 
 		permission.setPatient(userRepository.findById(permissionKey.getPatientId()).orElseThrow(() -> new UserNotFoundException(permissionKey.getPatientId())));
 		permission.setDoctor(userRepository.findById(permissionKey.getDoctorId()).orElseThrow(() -> new UserNotFoundException(permissionKey.getDoctorId())));

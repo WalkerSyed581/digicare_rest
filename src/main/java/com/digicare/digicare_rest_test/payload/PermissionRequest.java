@@ -2,27 +2,30 @@ package com.digicare.digicare_rest_test.payload;
 
 
 public class PermissionRequest {
-	private Long patient_id;		
-	private Long doctor_id;
+	private Long patientId;		
+	private Long doctorId;
 
 
 	
 	
 
-	public Long getPatient_id() {
-		return patient_id;
+	public Long getpatientId() {
+		return patientId;
 	}
-	public void setPatient_id(Long patient_id) {
-		this.patient_id = patient_id;
+	public void setpatientId(Long patientId) {
+		this.patientId = patientId;
 	}
-	public Long getDoctor_id() {
-		return doctor_id;
+	public Long getdoctorId() {
+		return doctorId;
 	}
-	public void setDoctor_id(Long doctor_id) {
-		this.doctor_id = doctor_id;
+	public void setdoctorId(Long doctorId) {
+		this.doctorId = doctorId;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "PermissionRequest [doctorId=" + doctorId + ", patientId=" + patientId + "]";
+	}
 
 	
 }

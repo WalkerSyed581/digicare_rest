@@ -10,7 +10,7 @@ import javax.persistence.MapsId;
 public class PatientDoctor {
 
     @EmbeddedId
-    PatientDoctorKey id;
+    PatientDoctorKey id = new PatientDoctorKey();
 
     @ManyToOne
     @MapsId("patientId")

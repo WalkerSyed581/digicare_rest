@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.digicare.digicare_rest_test.exception.SensorNotFoundException;
 
 @ControllerAdvice
-class UserNotFoundAdvice {
+class SensorNotFoundAdvice {
 
   @ResponseBody
   @ExceptionHandler(SensorNotFoundException.class)
