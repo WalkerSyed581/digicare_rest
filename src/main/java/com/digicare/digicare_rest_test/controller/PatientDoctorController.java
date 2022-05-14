@@ -84,7 +84,7 @@ public class PatientDoctorController {
 
     @GetMapping("/permission/doctor/{doctor_id}")
     public CollectionModel<EntityModel<PatientDoctor>> permissionByDoctor(@PathVariable Long doctor_id) {
-        List<EntityModel<PatientDoctor>> PatientDoctors = repository.findByPatientId(doctor_id).stream() //
+        List<EntityModel<PatientDoctor>> PatientDoctors = repository.findByDoctorId(doctor_id).stream() //
                 .map(assembler::toModel) //
                 .collect(Collectors.toList());
         System.out.println(PatientDoctors);
@@ -106,8 +106,9 @@ public class PatientDoctorController {
 //      });
 //  }
 
-    @DeleteMapping("/permission/{patient_id}/{doctor_id}/")
+    @DeleteMapping("/permission/{patient_id}/{doctor_id}")
     void deleteEmployee(@PathVariable Long patient_id,@PathVariable Long doctor_id) {
+        System.out.println("HERE");
         PatientDoctorKey id = new PatientDoctorKey(patient_id,doctor_id);
         repository.deleteById(id);
     }

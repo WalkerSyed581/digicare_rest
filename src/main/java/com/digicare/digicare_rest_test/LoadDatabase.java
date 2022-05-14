@@ -110,6 +110,7 @@ class LoadDatabase {
  	 SensorPatientData reading3 = new SensorPatientData(new Date(),99.00,user1,sensor1);
 	
 	com.digicare.digicare_rest_test.model.user.PatientDoctor permission1 = new com.digicare.digicare_rest_test.model.user.PatientDoctor(new PatientDoctorKey(user1.getId(),user3.getId()),user1,user3);
+	com.digicare.digicare_rest_test.model.user.PatientDoctor permission2 = new com.digicare.digicare_rest_test.model.user.PatientDoctor(new PatientDoctorKey(user2.getId(),user3.getId()),user2,user3);
 	
     return args -> {
 		log.info("Preloading " + user1);
@@ -136,6 +137,7 @@ class LoadDatabase {
 		
 		log.info("Preloading " + permission_repository.save(permission1));
 
+		log.info("Preloading " + permission_repository.save(permission2));
     };
   }
 }
