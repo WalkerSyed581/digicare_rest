@@ -18,12 +18,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.digicare.digicare_rest_test.security.JwtAuthenticationEntryPoint;
 import com.digicare.digicare_rest_test.service.JwtUserDetailsService;
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import com.digicare.digicare_rest_test.filters.*;
 
 import org.springframework.security.config.BeanIds;
 
 @Configuration
 @EnableWebSecurity
+@EnableEncryptableProperties
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 

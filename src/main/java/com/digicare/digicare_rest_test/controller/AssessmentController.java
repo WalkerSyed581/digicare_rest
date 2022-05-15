@@ -1,5 +1,6 @@
 package com.digicare.digicare_rest_test.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -69,6 +70,15 @@ public class AssessmentController {
         .orElseThrow(() -> new UserNotFoundException(id));
 
     return assembler.toModel(Assessment);
+  }
+
+  @GetMapping("/assessments/{doctor_id}/{patient_id}")
+  public CollectionModel<EntityModel<Assessment>> getAssessmentsByDoctorForPatient(@PathVariable Long doctor_id,@PathVariable Long patient_id) {
+    List<EntityModel<Assessment>> Assessments = repository.findByDoctorIdAndPatientId(doctor_id,patient_id).stream() //
+        .map(assembler::toModel) //
+        .collect(Collectors.toList());
+
+    return CollectionModel.of(Assessments, linkTo(methodOn(AssessmentController.class).all()).withSelfRel());
   }
 
   @PutMapping("/assessments/{id}")
