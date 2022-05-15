@@ -49,7 +49,7 @@ public class AssessmentController {
   // tag::get-aggregate-root[]
   @GetMapping("/assessments")
   public CollectionModel<EntityModel<Assessment>> all() {
-    List<EntityModel<Assessment>> Assessments = repository.findAll().stream() //
+    List<EntityModel<Assessment>> Assessments = repository.findAllByOrderByTimestampDesc().stream() //
         .map(assembler::toModel) //
         .collect(Collectors.toList());
 
@@ -74,7 +74,7 @@ public class AssessmentController {
 
   @GetMapping("/assessments/{doctor_id}/{patient_id}")
   public CollectionModel<EntityModel<Assessment>> getAssessmentsByDoctorForPatient(@PathVariable Long doctor_id,@PathVariable Long patient_id) {
-    List<EntityModel<Assessment>> Assessments = repository.findByDoctorIdAndPatientId(doctor_id,patient_id).stream() //
+    List<EntityModel<Assessment>> Assessments = repository.findByDoctorIdAndPatientIdByOrderByTimestampDesc(doctor_id,patient_id).stream() //
         .map(assembler::toModel) //
         .collect(Collectors.toList());
 

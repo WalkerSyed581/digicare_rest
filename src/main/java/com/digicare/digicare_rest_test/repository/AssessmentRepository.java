@@ -13,6 +13,8 @@ import com.digicare.digicare_rest_test.model.Assessment;
 @Repository
 public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
 
-	List<Assessment> findByDoctorIdAndPatientId(@NotBlank Long doctor_id,@NotBlank Long patient_id);
+	List<Assessment> findByDoctorIdAndPatientIdByOrderByTimestampDesc(@NotBlank Long doctor_id,@NotBlank Long patient_id);
+
+	List<Assessment> findAllByOrderByTimestampDesc();
 
 }

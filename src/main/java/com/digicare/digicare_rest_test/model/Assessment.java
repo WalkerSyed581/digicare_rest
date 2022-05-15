@@ -1,6 +1,7 @@
 package com.digicare.digicare_rest_test.model;
 
 
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -21,8 +22,6 @@ public class Assessment {
 	@GeneratedValue
 	@Column(name = "id", updatable = false, nullable = false)
 	protected Long id;
-	
-	
 
 	@Column
   	private String notes;
@@ -39,6 +38,13 @@ public class Assessment {
 	@Column
 	private String data_desc;
 	
+	@Column
+	private Date timestamp;
+
+
+
+	
+
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "patient_id", referencedColumnName = "id")
 	private User patient;
@@ -46,6 +52,15 @@ public class Assessment {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "doctor_id", referencedColumnName = "id")
 	private User doctor;
+
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
 
 	public Long getId() {
 		return id;
@@ -115,7 +130,7 @@ public class Assessment {
 	}
 
 	public Assessment(Long id, String notes, String condition, String recommendations, String cg_instr,
-			String data_desc, User patient, User doctor) {
+			String data_desc, User patient, User doctor,Date timestamp) {
 		super();
 		this.id = id;
 		this.notes = notes;
@@ -125,6 +140,7 @@ public class Assessment {
 		this.data_desc = data_desc;
 		this.patient = patient;
 		this.doctor = doctor;
+		this.timestamp = timestamp;
 	}
 
 	public Assessment(){
@@ -135,7 +151,7 @@ public class Assessment {
 	public String toString() {
 		return "Assessment [id=" + id + ", notes=" + notes + ", condition=" + condition + ", redommendations="
 				+ recommendations + ", cg_instr=" + cg_instr + ", data_desc=" + data_desc + ", patient=" + patient
-				+ ", doctor=" + doctor + "]";
+				+ ", doctor=" + doctor + ", timestamp=" + timestamp + "]";
 	}
 
 	public User getPatient() {
