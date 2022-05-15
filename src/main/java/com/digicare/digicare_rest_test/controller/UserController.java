@@ -69,7 +69,9 @@ public class UserController {
   }
   // end::get-aggregate-root[]
 
+
   @PostMapping("/users")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public User newUser(@RequestBody SignUpRequest newUser) {
     return userService.addUser(newUser);
   }

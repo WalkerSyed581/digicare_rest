@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
             ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Email is already taken");
             throw new BadRequestException(apiResponse);
         }
+
         RoleName user_rName = RoleName.values()[user.getRole() - 1];
         User new_user = new User();
         modelMapper.map(user, new_user);       
