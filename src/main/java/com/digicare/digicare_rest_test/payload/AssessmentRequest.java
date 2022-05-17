@@ -1,5 +1,7 @@
 package com.digicare.digicare_rest_test.payload;
 
+import java.util.Date;
+
 public class AssessmentRequest {	
   	private String notes;
 	
@@ -12,6 +14,18 @@ public class AssessmentRequest {
 	private String data_desc;
 
 	private long patient_id;
+
+	private Date timestamp;
+
+	
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
 
 	public String getNotes() {
 		return notes;
