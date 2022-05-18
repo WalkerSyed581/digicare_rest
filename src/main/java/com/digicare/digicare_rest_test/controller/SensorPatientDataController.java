@@ -62,6 +62,12 @@ public class SensorPatientDataController {
 		return sensorPatientDataService.addReading(newReading, currentUser);
   }
 
+  //TODO Make encryption and stuff
+  @PostMapping("/readings/cloud")
+  public ApiResponse storeCloudData(@RequestBody String newReading) {
+    return sensorPatientDataService.verifyAndAddReading(newReading);
+  }
+
   // Single item
   
   // @GetMapping("/readings/{patient_id}/{sensor_id}/{timestamp}")

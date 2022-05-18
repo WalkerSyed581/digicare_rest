@@ -10,6 +10,8 @@ public interface SensorPatientDataService {
 
 //    User getUserProfile(String username);
 
+    ApiResponse verifyAndAddReading(String newReading);
+
     SensorPatientData addReading(ReadingRequest readingRequest, UserPrincipal currentUser);
 
     SensorPatientData updateReading(ReadingRequest updatedReading, Long id, UserPrincipal currentUser);

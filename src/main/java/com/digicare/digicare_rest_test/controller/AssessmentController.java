@@ -1,6 +1,5 @@
 package com.digicare.digicare_rest_test.controller;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
