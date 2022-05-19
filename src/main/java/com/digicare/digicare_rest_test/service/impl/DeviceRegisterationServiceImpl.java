@@ -8,6 +8,7 @@ import com.digicare.digicare_rest_test.payload.ApiResponse;
 import com.digicare.digicare_rest_test.payload.DeviceRegisterationRequest;
 import com.digicare.digicare_rest_test.payload.ReadingRequest;
 import com.digicare.digicare_rest_test.exception.*;
+import com.digicare.digicare_rest_test.repository.DeviceRegisterationRepository;
 import com.digicare.digicare_rest_test.repository.SensorPatientRepository;
 import com.digicare.digicare_rest_test.repository.SensorRepository;
 import com.digicare.digicare_rest_test.repository.UserRepository;
@@ -34,13 +35,28 @@ public class DeviceRegisterationServiceImpl implements DeviceRegisterationServic
 	@Autowired
 	private SensorRepository sensorRepository;
 
+	@Autowired
+	private DeviceRegisterationRepository deviceRepository;
+
 
 
 	@Override
 	public DeviceRegisteration addDevice(DeviceRegisterationRequest deviceRegistrationRequest,
 			UserPrincipal currentUser) {
 		// TODO Auto-generated method stub
-		return null;
+
+		if (deviceRepository.existsByPatient_Id(deviceRegistrationRequest.getPatient_id())) {
+            ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Patient already registered");
+            throw new BadRequestException(apiResponse);
+        }
+
+		DeviceRegisteration newDevice = new DeviceRegisteration();
+
+		newDevice.setCreated_at(deviceRegistrationRequest.getCreated_at());
+		newDevice.setPatient(userRepository.findById(deviceRegistrationRequest.getPatient_id()).orElseThrow(() -> new UserNotFoundException(deviceRegistrationRequest.getPatient_id())));
+		newDevice.setPublic_key(deviceRegistrationRequest.getPublic_key());
+
+		return deviceRepository.save(newDevice);
 	}
 
 	@Override

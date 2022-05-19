@@ -113,6 +113,8 @@ class LoadDatabase {
 	user_repository.save(user4);
 			
 	user_repository.save(user5);
+	user_repository.save(user_6);
+
 
 	
 	

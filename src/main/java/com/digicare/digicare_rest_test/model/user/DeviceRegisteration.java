@@ -23,7 +23,7 @@ public class DeviceRegisteration {
 	@Column(name = "id", updatable = false, nullable = false)
 	protected Long id;
 	
-	@Column(unique=true,nullable=false)
+	@Column(unique=true,nullable=false,columnDefinition = "TEXT")
 	private String publicKey;
 	
 	@OneToOne
@@ -33,7 +33,9 @@ public class DeviceRegisteration {
 	@Column
 	private Date created_at;
 
+	public DeviceRegisteration(){
 
+	}
 
 	public DeviceRegisteration(Long id, String publicKey, User patient, Date created_at) {
 		this.id = id;

@@ -15,6 +15,8 @@ public interface DeviceRegisterationRepository extends JpaRepository<DeviceRegis
 	Optional<DeviceRegisteration> findByPublicKey(String public_key);
 
 	Optional<DeviceRegisteration> findByPatient(User patient);
+
+	Boolean existsByPatient_Id(Long patient_id);
     
 }
 
