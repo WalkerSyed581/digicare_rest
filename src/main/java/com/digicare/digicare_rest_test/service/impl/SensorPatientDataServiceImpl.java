@@ -149,7 +149,7 @@ public class SensorPatientDataServiceImpl implements SensorPatientDataService {
                     SensorPatientData temp_entry = new SensorPatientData();
                     temp_entry.setPatient(user);
                     temp_entry.setReading(reading.getTemperature());
-                    temp_entry.setSensor(sensorRepository.getById((long) 14));
+                    temp_entry.setSensor(sensorRepository.getById((long) 34));
                     temp_entry.setTimestamp(reading.getTimestamp());
 
                     sensorPatientRepository.save(temp_entry);
@@ -157,7 +157,7 @@ public class SensorPatientDataServiceImpl implements SensorPatientDataService {
                     SensorPatientData spo2_entry = new SensorPatientData();
                     spo2_entry.setPatient(user);
                     spo2_entry.setReading(reading.getSpo2());
-                    spo2_entry.setSensor(sensorRepository.getById((long) 13));
+                    spo2_entry.setSensor(sensorRepository.getById((long) 33));
                     spo2_entry.setTimestamp(reading.getTimestamp());
 
                     sensorPatientRepository.save(spo2_entry);
@@ -165,7 +165,7 @@ public class SensorPatientDataServiceImpl implements SensorPatientDataService {
                     SensorPatientData heart_entry = new SensorPatientData();
                     heart_entry.setPatient(user);
                     heart_entry.setReading(reading.getHeart_rate());
-                    heart_entry.setSensor(sensorRepository.getById((long) 14));
+                    heart_entry.setSensor(sensorRepository.getById((long) 33));
                     heart_entry.setTimestamp(reading.getTimestamp());
 
                     sensorPatientRepository.save(heart_entry);
