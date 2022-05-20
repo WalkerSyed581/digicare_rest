@@ -30,7 +30,7 @@ class LoadDatabase {
 
   private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-	// @Bean
+	@Bean
   	CommandLineRunner initDatabase(
 		  RoleRepository role_repository,		    
 		  AddressRepository address_repository,
@@ -401,80 +401,80 @@ class LoadDatabase {
 					"Heart rate monitor shows significant increase in aortic strength", user_9, user_1,new Date());
 				assessment_repository.save(assessment_3);
 
-				Assessment assessment_4 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_10, user_3,new Date());
+				Assessment assessment_4 = new Assessment("may require some support if condition worsens", "Good", "Rest recommended", "Check occasionally",
+					"Normal vital signs", user_10, user_3,new Date());
 				assessment_repository.save(assessment_4);
 
-				Assessment assessment_5 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_10, user_3,new Date());
+				Assessment assessment_5 = new Assessment("If breathing does not remain level, may require hospital visit", "Average", "Healthy diet and bed rest", "Checkup occasionally, ideally twice a week",
+					"SPo2 monitor indicates severe issue", user_10, user_3,new Date());
 				assessment_repository.save(assessment_5);
 
-				Assessment assessment_6 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
+				Assessment assessment_6 = new Assessment("If breathing does not remain level, may require ICU support", "sick", "Take 2 tablets of medicol every day", "Checkup occasionally, ideally twice a week",
 					"Heart rate monitor indicates severe issue", user_10, user_3,new Date());
 				assessment_repository.save(assessment_6);
 
-				Assessment assessment_7 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_10, user_4,new Date());
+				Assessment assessment_7 = new Assessment("May require hospitilisation if condition worsens", "Average", "Take 2 tablets of medicol every day and bed rest", "Keep under observation at all times",
+					"vital signs normalizing", user_10, user_4,new Date());
 				assessment_repository.save(assessment_7);
 
-				Assessment assessment_8 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
+				Assessment assessment_8 = new Assessment("If breathing does not remain level, may require ICU support", "Sick", "Take 2 tablets of medicol every day", "Keep under observation at all times",
 					"Heart rate monitor indicates severe issue", user_11, user_1,new Date());
 				assessment_repository.save(assessment_8);
 
-				Assessment assessment_9 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
+				Assessment assessment_9 = new Assessment("If breathing does not remain level, may require ICU support", "Average", "Take 2 tablets of medicol every day", "Keep under observation at all times",
 					"Heart rate monitor indicates severe issue", user_11, user_1,new Date());
 				assessment_repository.save(assessment_9);
 
-				Assessment assessment_10 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_12, user_5,new Date());
+				Assessment assessment_10 = new Assessment("Bed rest recommended ", "Good", "Healthy diet and bed rest", "Checkup occasionally, ideally twice a week",
+					"Normal vital signs", user_12, user_5,new Date());
 				assessment_repository.save(assessment_10);
 
-				Assessment assessment_11 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_12, user_5,new Date());
+				Assessment assessment_11 = new Assessment("Hospital visit if condition worsens ", "average", "Take care and precautions according to condition", "Keep under observation at all times",
+					"Vital signs moderate values", user_12, user_5,new Date());
 				assessment_repository.save(assessment_11);
 
-				Assessment assessment_12 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_12 = new Assessment("If breathing does not remain level, may require ICU support", "Average", "Rest recommended", "Check occasionally",
+					"Heart rate monitor indicates severe issue", user_13, user_5,new Date());
 				assessment_repository.save(assessment_12);
 
-				Assessment assessment_13 = new Assessment("If breathing does not remain level, may require ICU support", "Good", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_13 = new Assessment("If breathing does not remain level, may require ICU support", "Sick", "Take 2 tablets of medicol every day", "Keep under observation at all times",
+					"All monitor indicates severe issue", user_13, user_4,new Date());
 				assessment_repository.save(assessment_13);
 
-				Assessment assessment_14 = new Assessment("If breathing does not remain level, may require ICU support", "Average", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_14 = new Assessment("May require hospitilisation if condition worsens", "Average", "Reduce dosage of medicol to one every two days. Do not carry out strenuous exercise at this time.", "Keep under observation at all times",
+					"Normal vital signs", user_13, user_4,new Date());
 				assessment_repository.save(assessment_14);
 
-				Assessment assessment_15 = new Assessment("If breathing does not remain level, may require ICU support", "Average", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_15 = new Assessment("Bed rest recommended ", "Good", "Take 1 tablets of medicol every day", "Checkup occasionally, ideally twice a week",
+					"Normal vital signs", user_13, user_4,new Date());
 				assessment_repository.save(assessment_15);
 
-				Assessment assessment_16 = new Assessment("If breathing does not remain level, may require ICU support", "Average", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_16 = new Assessment("May require hospitilisation if condition worsens", "Average", "Take 1 tablets of medicol every day", "Check occasionally",
+					"Heart rate monitor indicates severe issue", user_15, user_2,new Date());
 				assessment_repository.save(assessment_16);
 
-				Assessment assessment_17 = new Assessment("If breathing does not remain level, may require ICU support", "Average", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_17 = new Assessment("If breathing does not remain level, may require ICU support", "Sick", "Take 2 tablets of medicol every day", "Keep under observation at all times",
+					"Heart rate monitor indicates severe issue", user_15, user_2,new Date());
 				assessment_repository.save(assessment_17);
 
-				Assessment assessment_18 = new Assessment("If breathing does not remain level, may require ICU support", "Sick", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_18 = new Assessment("if signs do not normalise immediate hospitalisation", "Sick", "Take 2 tablets of medicol every day", "Keep under observation at all times",
+					"All monitor indicates severe issue", user_16, user_3,new Date());
 				assessment_repository.save(assessment_18);
 
-				Assessment assessment_19 = new Assessment("If breathing does not remain level, may require ICU support", "Sick", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_19 = new Assessment("If breathing does not remain level, may require ICU support", "Average", "Reduce dosage of medicol to one every two days. Do not carry out strenuous exercise at this time.", "Checkup occasionally, ideally twice a week",
+					"SPo2 monitor indicates severe issue", user_16, user_3,new Date());
 				assessment_repository.save(assessment_19);
 
-				Assessment assessment_20 = new Assessment("If breathing does not remain level, may require ICU support", "Sick", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_20 = new Assessment("Hospital visit if condition worsens ", "Average", "Take 1 tablets of medicol every day", "Checkup occasionally, ideally twice a week",
+					"vital sign normalizing", user_16, user_3,new Date());
 				assessment_repository.save(assessment_20);
 
-				Assessment assessment_21 = new Assessment("If breathing does not remain level, may require ICU support", "Sick", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_21 = new Assessment("May require hospitilisation if condition worsens", "Good", "Take care and precautions according to condition", "Check occasionally",
+					"Vital signs moderate values", user_16, user_1,new Date());
 				assessment_repository.save(assessment_21);
 
-				Assessment assessment_22 = new Assessment("If breathing does not remain level, may require ICU support", "Sick", "Take 2 tablets of medicol every day", "Keep under observation at all times",
-					"Heart rate monitor indicates severe issue", user_11, user_2,new Date());
+				Assessment assessment_22 = new Assessment("Bed rest recommended ", "Good", "Healthy diet and bed rest", "Check occasionally",
+					"Normal vital signs", user_16, user_1,new Date());
 				assessment_repository.save(assessment_22);
 
         // ================ SEEDS END ================
