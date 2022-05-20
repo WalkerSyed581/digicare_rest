@@ -118,16 +118,16 @@ public class SensorPatientDataServiceImpl implements SensorPatientDataService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         
-        List<String> params = Arrays.asList(newReading.split("|"));
+        List<String> params = Arrays.asList(newReading.split("\\|"));
         if(StringUtils.isNumeric(params.get(0))){
             Long user_id = Long.parseLong(params.get(0));
             User user = userRepository.findById(user_id)
                     .orElseThrow(() -> new UserNotFoundException(user_id));
-                
             
 
             DeviceRegisteration device = deviceRepository.findByPatient(user)
             .orElseThrow(() -> new DeviceNotFoundException(user));
+
             try {
 
                 byte[] publicBytes = Base64.getDecoder().decode(device.getPublic_key());
@@ -140,25 +140,37 @@ public class SensorPatientDataServiceImpl implements SensorPatientDataService {
 
                 sign.initVerify(pubKey);
                 sign.update(params.get(0).getBytes());
-                Boolean sign_ver = sign.verify(params.get(1).getBytes());
-
+                Boolean sign_ver = sign.verify(Base64.getDecoder().decode(params.get(1)));
     
 
                 if(sign_ver){
                     CloudReadingRequest reading = objectMapper.readValue(params.get(2), CloudReadingRequest.class);
-                    Iterator<Map.Entry<Long, Double>> itr = reading.readings.entrySet().iterator();
             
-                    while(itr.hasNext())
-                    {
-                        Map.Entry<Long, Double> entry = itr.next();
-                        SensorPatientData reading_entry = new SensorPatientData();
-                        reading_entry.setPatient(user);
-                        reading_entry.setReading(entry.getValue());
-                        reading_entry.setSensor(sensorRepository.getById(entry.getKey()));
-                        reading_entry.setTimestamp(Date.from(reading.getTimestamp().atZone(ZoneId.systemDefault()).toInstant()));
+                    SensorPatientData temp_entry = new SensorPatientData();
+                    temp_entry.setPatient(user);
+                    temp_entry.setReading(reading.getTemperature());
+                    temp_entry.setSensor(sensorRepository.getById((long) 14));
+                    temp_entry.setTimestamp(reading.getTimestamp());
 
-                        sensorPatientRepository.save(reading_entry);
-                    }
+                    sensorPatientRepository.save(temp_entry);
+
+                    SensorPatientData spo2_entry = new SensorPatientData();
+                    spo2_entry.setPatient(user);
+                    spo2_entry.setReading(reading.getSpo2());
+                    spo2_entry.setSensor(sensorRepository.getById((long) 13));
+                    spo2_entry.setTimestamp(reading.getTimestamp());
+
+                    sensorPatientRepository.save(spo2_entry);
+
+                    SensorPatientData heart_entry = new SensorPatientData();
+                    heart_entry.setPatient(user);
+                    heart_entry.setReading(reading.getHeart_rate());
+                    heart_entry.setSensor(sensorRepository.getById((long) 14));
+                    heart_entry.setTimestamp(reading.getTimestamp());
+
+                    sensorPatientRepository.save(heart_entry);
+                    
+                    
                 } else {
                     return new ApiResponse(Boolean.FALSE, "Invalid Reading");
                 }
@@ -166,6 +178,7 @@ public class SensorPatientDataServiceImpl implements SensorPatientDataService {
 
             } catch (Exception e) {
                 // TODO Auto-generated catch block
+                System.out.print(e);
                 return new ApiResponse(Boolean.FALSE, "Invalid Reading");
             }
 

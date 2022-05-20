@@ -65,6 +65,7 @@ public class SensorPatientDataController {
   //TODO Make encryption and stuff
   @PostMapping("/readings/cloud")
   public ApiResponse storeCloudData(@RequestBody String newReading) {
+    System.out.println(newReading);
     return sensorPatientDataService.verifyAndAddReading(newReading);
   }
 
