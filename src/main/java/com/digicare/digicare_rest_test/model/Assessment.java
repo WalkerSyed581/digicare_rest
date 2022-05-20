@@ -129,10 +129,8 @@ public class Assessment {
 				&& Objects.equals(patient, other.patient);
 	}
 
-	public Assessment(Long id, String notes, String condition, String recommendations, String cg_instr,
+	public Assessment( String notes, String condition, String recommendations, String cg_instr,
 			String data_desc, User patient, User doctor,Date timestamp) {
-		super();
-		this.id = id;
 		this.notes = notes;
 		this.condition = condition;
 		this.recommendations = recommendations;
