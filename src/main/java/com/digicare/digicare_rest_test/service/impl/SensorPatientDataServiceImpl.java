@@ -12,6 +12,7 @@ import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.security.Signature;
 import java.security.spec.X509EncodedKeySpec;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -127,51 +128,39 @@ public class SensorPatientDataServiceImpl implements SensorPatientDataService {
 
             DeviceRegisteration device = deviceRepository.findByPatient(user)
             .orElseThrow(() -> new DeviceNotFoundException(user));
+            try {
 
-            byte[] publicBytes = Base64.getDecoder().decode(device.getPublic_key());
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicBytes);
+                byte[] publicBytes = Base64.getDecoder().decode(device.getPublic_key());
+                X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicBytes);
+
+                KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+                PublicKey pubKey = (PublicKey) keyFactory.generatePublic(keySpec);
+
+                Signature sign = Signature.getInstance("SHA256withRSA");
+
+                sign.initVerify(pubKey);
+                sign.update(params.get(0).getBytes());
+                Boolean sign_ver = sign.verify(params.get(1).getBytes());
+
+    
+
+                if(sign_ver){
+                    CloudReadingRequest reading = objectMapper.readValue(params.get(2), CloudReadingRequest.class);
+                    Iterator<Map.Entry<Long, Double>> itr = reading.readings.entrySet().iterator();
             
-            KeyFactory keyFactory;
-            PublicKey pubKey = null;
+                    while(itr.hasNext())
+                    {
+                        Map.Entry<Long, Double> entry = itr.next();
+                        SensorPatientData reading_entry = new SensorPatientData();
+                        reading_entry.setPatient(user);
+                        reading_entry.setReading(entry.getValue());
+                        reading_entry.setSensor(sensorRepository.getById(entry.getKey()));
+                        reading_entry.setTimestamp(Date.from(reading.getTimestamp().atZone(ZoneId.systemDefault()).toInstant()));
 
-            try {
-                keyFactory = KeyFactory.getInstance("RSA");
-                pubKey = keyFactory.generatePublic(keySpec);
-            } catch (Exception e) {
-                return new ApiResponse(Boolean.FALSE, "Invalid Reading");
-            }
-
-            Cipher cipher;
-            try {
-                cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-                cipher.init(Cipher.DECRYPT_MODE, pubKey);
-            } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException e1) {
-                return new ApiResponse(Boolean.FALSE, "Invalid Reading");
-            }
-            
-            byte[] decipheredString = null;
-            try {
-                decipheredString = cipher.doFinal(params.get(1).getBytes());
-            } catch (IllegalBlockSizeException | BadPaddingException e) {
-                // TODO Auto-generated catch block
-                return new ApiResponse(Boolean.FALSE, "Invalid Reading");
-            }
-            String readingStr = new String(decipheredString);
-
-            try {
-                CloudReadingRequest reading = objectMapper.readValue(readingStr, CloudReadingRequest.class);
-                Iterator<Map.Entry<Long, Double>> itr = reading.readings.entrySet().iterator();
-          
-                while(itr.hasNext())
-                {
-                    Map.Entry<Long, Double> entry = itr.next();
-                    SensorPatientData reading_entry = new SensorPatientData();
-                    reading_entry.setPatient(user);
-                    reading_entry.setReading(entry.getValue());
-                    reading_entry.setSensor(sensorRepository.getById(entry.getKey()));
-                    reading_entry.setTimestamp(Date.from(reading.getTimestamp().atZone(ZoneId.systemDefault()).toInstant()));
-
-                    sensorPatientRepository.save(reading_entry);
+                        sensorPatientRepository.save(reading_entry);
+                    }
+                } else {
+                    return new ApiResponse(Boolean.FALSE, "Invalid Reading");
                 }
                 
 
