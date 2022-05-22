@@ -58,14 +58,14 @@ public class NotificationController {
   }
   // end::get-aggregate-root[]
 
-  @PostMapping("/notifcations")
+  @PostMapping("/notifications")
   public Notification newNotification(@RequestBody NotificationRequest newNotification) {
     return notificationService.addNotification(newNotification);
   }
 
   // Single item
   
-  @GetMapping("/notifcations/{id}")
+  @GetMapping("/notifications/{id}")
   public EntityModel<Notification> one(@PathVariable Long id) {
     Notification Notification = repository.findById(id) //
         .orElseThrow(() -> new UserNotFoundException(id));
@@ -74,7 +74,7 @@ public class NotificationController {
   }
 
 
-  @GetMapping("/notifcations/{patient_id}")
+  @GetMapping("/notifications/{patient_id}")
   public CollectionModel<EntityModel<Notification>>  getByPatientId(@PathVariable Long patient_id) {
     List<EntityModel<Notification>> notifcations = repository.findByPatientIdOrderByTimestampDesc(patient_id).stream() //
         .map(assembler::toModel) //
