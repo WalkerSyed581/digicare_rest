@@ -2,6 +2,7 @@ package com.digicare.digicare_rest_test;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.Calendar;
 
 
@@ -30,7 +31,7 @@ class LoadDatabase {
 
   private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-	// @Bean
+	@Bean
   	CommandLineRunner initDatabase(
 		  RoleRepository role_repository,		    
 		  AddressRepository address_repository,
@@ -194,7 +195,7 @@ class LoadDatabase {
 				Sensor sensor_2 = new Sensor("mpu3040","Heart Rate Sensor");
 				sensor_repository.save(sensor_2);
 
-				Sensor sensor_3 = new Sensor("ir1353","ECG Sensor");
+				Sensor sensor_3 = new Sensor("ir1353","Temperature");
 				sensor_repository.save(sensor_3);
 
 				// ================ READING SEEDS ================
@@ -348,6 +349,36 @@ class LoadDatabase {
 
 				SensorPatientData reading_50 = new SensorPatientData(new Date(),77.51,user_10,sensor_2);
 				reading_repository.save(reading_50);
+
+				Date curr_date1 = new Date();
+
+				try {
+					TimeUnit.SECONDS.sleep(2);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				Date curr_date2 = new Date();
+
+
+				SensorPatientData reading_51 = new SensorPatientData(curr_date1,74.0,user_11,sensor_1);
+				reading_repository.save(reading_51);
+
+				SensorPatientData reading_52 = new SensorPatientData(curr_date2,56.0,user_11,sensor_1);
+				reading_repository.save(reading_52);
+
+				SensorPatientData reading_53 = new SensorPatientData(curr_date1,83.0,user_11,sensor_2);
+				reading_repository.save(reading_53);
+
+				SensorPatientData reading_54 = new SensorPatientData(curr_date2,76.0,user_11,sensor_2);
+				reading_repository.save(reading_54);
+
+				SensorPatientData reading_55 = new SensorPatientData(curr_date1,60.2,user_11,sensor_3);
+				reading_repository.save(reading_55);
+
+				SensorPatientData reading_56 = new SensorPatientData(curr_date2,72.14,user_11,sensor_3);
+				reading_repository.save(reading_56);
 
 				// ================ PERMISSION SEEDS ================
 
