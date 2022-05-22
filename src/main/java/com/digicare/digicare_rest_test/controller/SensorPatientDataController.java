@@ -82,14 +82,24 @@ public class SensorPatientDataController {
   
 	//@GetMapping("/readings/{patient_id}/{sensor_id}/{timestamp}")
 	 @GetMapping("/readings/patient/{patient_id}/{sensor_id}")
-	 public CollectionModel<EntityModel<SensorPatientData>> readingByPatient(@PathVariable Long patient_id, @PathVariable Long sensor_id) {
+	 public CollectionModel<EntityModel<SensorPatientData>> readingByPatientAndSensor(@PathVariable Long patient_id, @PathVariable Long sensor_id) {
 	   List<EntityModel<SensorPatientData>> SensorPatientDatas = repository.findByPatientIdAndSensorId(patient_id,sensor_id).stream() //
+		        .map(assembler::toModel) //
+		        .collect(Collectors.toList());
+	
+	    return CollectionModel.of(SensorPatientDatas, linkTo(methodOn(SensorPatientDataController.class).all()).withSelfRel());
+	 }	
+
+	 @GetMapping("/readings/patient/{patient_id}")
+	 public CollectionModel<EntityModel<SensorPatientData>> readingByPatient(@PathVariable Long patient_id) {
+     System.out.println(patient_id);
+	   List<EntityModel<SensorPatientData>> SensorPatientDatas = repository.findByPatientId(patient_id).stream() //
 		        .map(assembler::toModel) //
 		        .collect(Collectors.toList());
 	   System.out.println(SensorPatientDatas);
 	
 	    return CollectionModel.of(SensorPatientDatas, linkTo(methodOn(SensorPatientDataController.class).all()).withSelfRel());
-	 }	
+	 }
 
 //  @PutMapping("/readings/{patient_id}/{sensor_id}/{timestamp}")
 //  public SensorPatientData replaceEmployee(@RequestBody SensorPatientData newSensorPatientData,@PathVariable Long patient_id,@PathVariable Long sensor_id,@PathVariable Date timestamp) {
