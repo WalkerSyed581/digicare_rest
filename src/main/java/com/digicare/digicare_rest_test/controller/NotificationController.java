@@ -74,7 +74,7 @@ public class NotificationController {
   }
 
 
-  @GetMapping("/notifications/{patient_id}")
+  @GetMapping("/notifications/patient/{patient_id}")
   public CollectionModel<EntityModel<Notification>>  getByPatientId(@PathVariable Long patient_id) {
     List<EntityModel<Notification>> notifcations = repository.findByPatientIdOrderByTimestampDesc(patient_id).stream() //
         .map(assembler::toModel) //
